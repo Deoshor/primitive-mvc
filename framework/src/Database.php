@@ -26,6 +26,11 @@ class Database
         $values = [];
         
         foreach($data as $key => $value){
+            if($key == 'password') {
+                $columns[] = $key;
+                $values[] = "'". password_hash($value,  PASSWORD_DEFAULT) ."'";
+                break;
+            }
             $columns[] = $key;
             $values[] = "'".$value."'";
         }
@@ -54,6 +59,11 @@ class Database
         $values = rtrim($values, ',');
         $query = pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
         return pg_fetch_assoc($query);
+    }
+
+    public function register()
+    {
+       // $password = $data['password']->password_hash();
     }
 }
 

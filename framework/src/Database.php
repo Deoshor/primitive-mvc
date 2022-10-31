@@ -36,23 +36,24 @@ class Database
         pg_query($this->connection, "INSERT INTO $table ($columns) VALUES ($values)");
         $maxId = pg_query($this->connection, "SELECT max(id) FROM $table");
         $maxId = pg_fetch_assoc($maxId);
-        return $this->whereId($table, $maxId['id']);
+        return $this->whereId($table, $maxId['max']);
     }
 
     public function whereId($table, $id)
     {
         $query = pg_query($this->connection, "SELECT * FROM $table WHERE id = $id");
-        return pg_fetch_assoc($query);
+        return pg_fetch_all($query);
     }
 
     public function update($table, $id, $data)
     {
         $values = '';
-        foreach($data as $key => $value){
+        foreach($data[0] as $key => $value){
             $values .= " $key = '$value',";
         }
         $values = rtrim($values, ',');
-        pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
+        $query = pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
+        return pg_fetch_assoc($query);
     }
 }
 

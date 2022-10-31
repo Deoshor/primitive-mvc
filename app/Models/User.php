@@ -6,7 +6,7 @@ use Framework\Src\Model;
 
 class User extends Model
 {
-    protected $table = 'users';
+    protected $table = 'forum.users';
     public $data = [];
 
 }

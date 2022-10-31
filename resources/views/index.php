@@ -8,10 +8,11 @@
 </head>
 <body>
     <h3>Список пользователей</h3>
-    <?php foreach($users as $user){
-        echo "<p>" . $user[1] . ' ' . $user[2] . "</p>";
-        if($user[3]){
-            echo '<img width="100" src="/storage/' . $user[3] . '">';
+    <?php
+    foreach($users as $user){
+        echo "<p>" . $user['name'] . ' ' . $user['lastname'] . "</p>";
+        if($user['file']){
+            echo '<img width="100" src="/storage/' . $user['file'] . '">';
         }
     }
     ?>
@@ -22,6 +23,8 @@
     <input type="text" name="name" id="name" placeholder="Имя">
     <label for="lastname">Фамилия</label>
     <input type="text" name="lastname" id="lastname" placeholder="Фамилия">
+    <label for="lastname">Логин</label>
+    <input type="text" name="login" id="login" placeholder="Логин">
     <input type="file" name="file">
     <button type="submit">Создать</button>
     </form>

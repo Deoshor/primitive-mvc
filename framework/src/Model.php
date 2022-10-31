@@ -14,12 +14,12 @@ class Model
 
     public function get()
     {
-        $this->database->get($this->table);
+        return $this->database->get($this->table);
     }
 
     public function create($data)
     {
-        $this->database->create($this->table, $data);
+        return $this->database->create($this->table, $data);
     }
 
     public function update($id, $data)

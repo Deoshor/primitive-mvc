@@ -44,6 +44,11 @@ class Model
     {
         $image->saveImage($file);
     }
+
+    public function register($data)
+    {
+        return $this->database->register($this->table, $data);
+    }
 }
 
 ?>

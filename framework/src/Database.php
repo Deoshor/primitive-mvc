@@ -61,9 +61,9 @@ class Database
         return pg_fetch_assoc($query);
     }
 
-    public function register()
+    public function login($table, $data)
     {
-       // $password = $data['password']->password_hash();
+
     }
 }
 

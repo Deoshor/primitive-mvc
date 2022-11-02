@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Framework\Src\Model;
+use Framework\Src\UserModel;
 
-class User extends Model
+class User extends UserModel
 {
     public $table = 'forum.users';
     public $data = [];

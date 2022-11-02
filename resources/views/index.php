@@ -76,6 +76,15 @@
     </div>
 </div>
 
+<div class="container">
+    <ul class="list-group">
+        <?php 
+        foreach($topic as $item){
+            echo "<li class=\"list-group-item\">" . $item['topic_name'] . "</li>";
+        }
+        ?>
+      </ul>
+</div>
 
 <script src="js/jquery.min.js"></script>
 <script src="js/popper.js"></script>

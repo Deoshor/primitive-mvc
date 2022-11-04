@@ -31,5 +31,5 @@ if($_SERVER['REQUEST_URI'] == '/'){
 }  elseif($_SERVER['REQUEST_URI'] == '/articles/create') {
     $controller = new \App\Controllers\ArticleController();
     echo $controller->create();
-}
+} 
 ?>

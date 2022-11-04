@@ -76,6 +76,11 @@ class UserModel
             return true;
         }
     }
-}
+    
+    public function getUser($id)
+    {  
+        return $this->database->getObject($id, $this->table);
+    }
 
+}
 ?>

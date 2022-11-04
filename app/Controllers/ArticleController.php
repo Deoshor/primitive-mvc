@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Article;
+use App\Models\Comment;
+use App\Models\User;
 
 class ArticleController
 {
@@ -10,6 +12,21 @@ class ArticleController
     {
         $articles = new Article();
         $article = $articles->getArticle($_SERVER['QUERY_STRING']);
+        
+        $comments = new Comment();
+        $comment = $comments->getComments($_SERVER['QUERY_STRING']);
+
+        $comments_data[] = array();
+        foreach($comment as $item) {
+            $user = new User();
+            $user = $user->getUser($item['comment2user']);
+            foreach($user as $user_data) {
+                $item['author']  = $user_data['name'] . ' ' . $user_data['lastname'];
+                array_push($comments_data, $item);
+            }
+        }
+        unset($comments_data[0]);
+        
         require_once 'resources/views/article.php';
     }
 

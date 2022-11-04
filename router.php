@@ -22,5 +22,14 @@ if($_SERVER['REQUEST_URI'] == '/'){
 } elseif($_SERVER['REQUEST_URI'] == ('/topic?' . $_SERVER['QUERY_STRING'])) {
     $controller = new \App\Controllers\TopicController();
     echo $controller->index();
+} elseif($_SERVER['REQUEST_URI'] == ('/article?' . $_SERVER['QUERY_STRING'])) {
+    $controller = new \App\Controllers\ArticleController();
+    echo $controller->index();
+}  elseif($_SERVER['REQUEST_URI'] == '/articles/store') {
+    $controller = new \App\Controllers\ArticleController();
+    echo $controller->store();
+}  elseif($_SERVER['REQUEST_URI'] == '/articles/create') {
+    $controller = new \App\Controllers\ArticleController();
+    echo $controller->create();
 }
 ?>

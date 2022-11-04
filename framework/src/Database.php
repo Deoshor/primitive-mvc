@@ -2,6 +2,8 @@
 
 namespace Framework\Src;
 
+use Exception;
+
 class Database
 {
     public $connection;
@@ -31,6 +33,16 @@ class Database
                 $values[] = "'". password_hash($value,  PASSWORD_DEFAULT) ."'";
                 break;
             }
+            if($key == 'article_file') {
+                foreach($values as $item) {
+                    dd($item);
+                    $columns[] = $key;
+                    $values[] = $item;
+                    break;
+                }
+                
+            }
+            dd($data);
             $columns[] = $key;
             $values[] = "'".$value."'";
         }
@@ -38,6 +50,7 @@ class Database
         $columns = trim($columns);
         $values = implode(',', $values);
         $values = trim($values);
+        dd($values);
         pg_query($this->connection, "INSERT INTO $table ($columns) VALUES ($values)");
         $maxId = pg_query($this->connection, "SELECT max(id) FROM $table");
         $maxId = pg_fetch_assoc($maxId);
@@ -56,6 +69,7 @@ class Database
         foreach($data[0] as $key => $value){
             $values .= " $key = '$value',";
         }
+        dd($values);
         $values = rtrim($values, ',');
         $query = pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
         return pg_fetch_assoc($query);
@@ -64,6 +78,12 @@ class Database
     public function login($table, $data)
     {
 
+    }
+
+    public function getArticles($id, $table)
+    {
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE article2topic = $id");
+        return pg_fetch_all($query);
     }
 
 }

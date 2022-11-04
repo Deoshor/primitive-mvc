@@ -34,7 +34,7 @@
     <div style="padding-top: 20px;">
         <div class="row justify-content-end">
             <div class="col-md-2">
-                <a class="btn btn-primary" href="createArticle.html">Написать статью</a>
+                <a class="btn btn-primary" href="/articles/store">Написать статью</a>
             </div>
         </div>
         <div class="col-md-12">
@@ -44,20 +44,17 @@
                 } ?>
             </h3>
         </div>
-        <div class="col-md-12 border-bottom">
-            <div class="row">
-                <div class="col-4">
-                    <a href="article.html">Статья 1</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12 border-bottom">
-            <div class="row">
-                <div class="col-4">
-                    <a href="article.html">Статья 2</a>
-                </div>
-            </div>
-        </div>
+        <?php 
+        foreach($article as $item) {
+            echo   "<div class=\"col-md-12 border-bottom\">
+                        <div class=\"row\">
+                            <div class=\"col-4\">
+                                    <a href=\"/article?id=" . $item['id'] . "\">" . $item['article_name'] . "</a>
+                                </div>
+                            </div>
+                    </div>";
+        }
+        ?>
     </div>
 
 </div>

@@ -34,4 +34,5 @@ class ArticleModel
     {
         return $this->database->update($this->table, $id, $data);
     }
+
 }

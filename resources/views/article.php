@@ -56,12 +56,15 @@
             </div>
         </div>
         <div class="col-md-9 border-bottom">
-            <div class="col-md-12">
-                <p class="lead">Имя автора</p>
-            </div>
-            <div class="col-md-12">
-                <p>Комментарий</p>
-            </div>
+            <?php foreach($comments_data as $item) {
+                echo "<div class=\"col-md-12\">
+                            <p class=\"lead\">" . $item['author'] . "</p>
+                        </div>
+                        <div class=\"col-md-12\">
+                            <p>" . $item['comment'] . "</p>
+                        </div>";
+            }
+            ?>
         </div>
     </div>
 

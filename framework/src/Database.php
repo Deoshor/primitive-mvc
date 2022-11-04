@@ -85,6 +85,12 @@ class Database
         $query = pg_query($this->connection, "SELECT * FROM $table WHERE article2topic = $id");
         return pg_fetch_all($query);
     }
-
+    
+    public function getComments($id, $table)
+    {
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE comment2article = $id");
+        return pg_fetch_all($query);
+    }
+        
 }
 ?>

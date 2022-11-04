@@ -4,7 +4,7 @@ namespace Framework\Src;
 
 use App\Interfaces\Image;
 
-class Model
+class UserModel
 {
     public $database;
     public function __construct()

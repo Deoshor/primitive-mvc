@@ -41,11 +41,11 @@ class Database
         pg_query($this->connection, "INSERT INTO $table ($columns) VALUES ($values)");
         $maxId = pg_query($this->connection, "SELECT max(id) FROM $table");
         $maxId = pg_fetch_assoc($maxId);
-        return $this->whereId($table, $maxId['max']);
+        return $this->getObject($table, $maxId['max']);
     }
 
-    public function whereId($table, $id)
-    {
+    public function getObject($id, $table)
+    {   
         $query = pg_query($this->connection, "SELECT * FROM $table WHERE id = $id");
         return pg_fetch_all($query);
     }
@@ -65,6 +65,6 @@ class Database
     {
 
     }
-}
 
+}
 ?>

@@ -16,7 +16,7 @@
         <div class="" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Главная</a>
+                    <a class="nav-link" href="/">Главная</a>
 
                 </li>
                 <li class="nav-item">
@@ -24,9 +24,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/registration">Регистрация</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/admin">Админка</a>
                 </li>
             </ul>
         </div>
@@ -37,44 +34,34 @@
     <div style="padding-top: 20px;">
         <div class="row justify-content-end">
             <div class="col-md-2">
-                <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Создать тему</button>
+                <a class="btn btn-primary" href="createArticle.html">Написать статью</a>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <h3 class="display-5">
+                <?php foreach($topic as $item) {
+                    echo $item['topic_name'];
+                } ?>
+            </h3>
+        </div>
+        <div class="col-md-12 border-bottom">
+            <div class="row">
+                <div class="col-4">
+                    <a href="article.html">Статья 1</a>
+                </div>
             </div>
         </div>
         <div class="col-md-12 border-bottom">
             <div class="row">
                 <div class="col-4">
-                    <a href="group.html">Название темы</a>
+                    <a href="article.html">Статья 2</a>
                 </div>
             </div>
         </div>
     </div>
+
 </div>
 
-
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Создание новой темы</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form action="/group/create" method="post">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="group" class="col-form-label">Название темы</label>
-                        <input type="text" required name="group" class="form-control" id="group">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                    <button type="submit" class="btn btn-primary">Создать</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 
 <script src="js/jquery.min.js"></script>

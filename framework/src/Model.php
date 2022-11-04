@@ -45,9 +45,35 @@ class Model
         $image->saveImage($file);
     }
 
-    public function register($data)
+    public function login($table, $data)
     {
-        return $this->database->register($this->table, $data);
+        if(!$this->existsUser($table, $data)) {
+            echo "User does not exist";
+        } else {
+            $email = $data['email'];
+            $currentPassword = $data['password'];
+            $savedPassword = $this->getPassword($table, $email);
+            return $this->comparePassword($currentPassword, $savedPassword);
+        }
+    }
+
+    public function existsUser($table, $data)
+    {
+        $email = $data['email'];
+        return pg_query($this->database->connection, "SELECT * FROM $table WHERE email = '$email'");
+    }
+
+    public function getPassword($table, $email) 
+    {
+        $query = pg_query($this->database->connection, "SELECT password FROM $table WHERE email = '$email'");
+        return pg_fetch_assoc($query);
+    }
+
+    public function comparePassword($currentPassword, $savedPassword)
+    {   
+        if(password_verify($currentPassword, $savedPassword['password'])) {
+            return true;
+        }
     }
 }
 

@@ -3,6 +3,7 @@
 namespace Framework\Src;
 
 use App\Interfaces\Image;
+use Exception;
 
 class UserModel
 {

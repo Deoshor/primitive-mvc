@@ -9,7 +9,7 @@ class TopicController
     public function index()
     {
         $topics = new Topic;
-        $topic = $topics->getTopics($this->table);
-        require_once 'resources/views/index.php';
+        $topic = $topics->getTopic($_SERVER['QUERY_STRING']);
+        require_once 'resources/views/group.php';
     }
 }

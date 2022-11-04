@@ -80,7 +80,7 @@
     <ul class="list-group">
         <?php 
         foreach($topic as $item){
-            echo "<li class=\"list-group-item\">" . $item['topic_name'] . "</li>";
+            echo "<li class=\"list-group-item\"><a href=\"/topic?id=" . $item['id'] . "\">" . $item['topic_name'] . "</a></li>";
         }
         ?>
       </ul>

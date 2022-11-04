@@ -1,7 +1,8 @@
 <?php
 
+
 if($_SERVER['REQUEST_URI'] == '/'){
-    $controller = new \App\Controllers\TopicController();
+    $controller = new \App\Controllers\MainController();
     echo $controller->index();
 } elseif($_SERVER['REQUEST_URI'] == '/users/store' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $controller = new \App\Controllers\UserController();
@@ -15,9 +16,11 @@ if($_SERVER['REQUEST_URI'] == '/'){
 } elseif($_SERVER['REQUEST_URI'] == '/login') {
     $controller = new \App\Controllers\AuthorizationController();
     $controller->index();
-} elseif($_SERVER['REQUEST_URI'] == '/login/authorize'  && $_SERVER['REQUEST_METHOD'] == 'POST') {
+} elseif($_SERVER['REQUEST_URI'] == '/login/authorize' && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $controller = new \App\Controllers\AuthorizationController();
     $controller->login();
+} elseif($_SERVER['REQUEST_URI'] == ('/topic?' . $_SERVER['QUERY_STRING'])) {
+    $controller = new \App\Controllers\TopicController();
+    echo $controller->index();
 }
-
 ?>

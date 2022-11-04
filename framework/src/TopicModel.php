@@ -12,7 +12,13 @@ class TopicModel
         $this->database = new Database;
     }
 
-    public function getTopics($table)
+    public function getTopic($id)
+    {
+        $id = substr($id, 3);
+        return $this->database->getObject($id, $this->table);
+    }
+
+    public function getTopics()
     {
         return $this->database->get($this->table);
     }

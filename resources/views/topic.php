@@ -39,9 +39,7 @@
         </div>
         <div class="col-md-12">
             <h3 class="display-5">
-                <?php foreach($topic as $item) {
-                    echo $item['topic_name'];
-                } ?>
+                <?php echo $topic['topic_name']; ?>
             </h3>
         </div>
         <?php 

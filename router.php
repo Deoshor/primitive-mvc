@@ -1,35 +1,54 @@
 <?php
 
+$route =  $_SERVER['REQUEST_URI'];
+$method = $_SERVER['REQUEST_METHOD'];
+$id = $_SERVER['QUERY_STRING'];
 
-if($_SERVER['REQUEST_URI'] == '/'){
-    $controller = new \App\Controllers\MainController();
-    echo $controller->index();
-} elseif($_SERVER['REQUEST_URI'] == '/users/store' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $controller = new \App\Controllers\UserController();
-    $controller->store();
-} elseif($_SERVER['REQUEST_URI'] == '/registration') {
-    $controller = new \App\Controllers\RegistrationController();
-    $controller->index();
-} elseif($_SERVER['REQUEST_URI'] == '/registration/create' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $controller = new \App\Controllers\RegistrationController();
-    $controller->register();
-} elseif($_SERVER['REQUEST_URI'] == '/login') {
-    $controller = new \App\Controllers\AuthorizationController();
-    $controller->index();
-} elseif($_SERVER['REQUEST_URI'] == '/login/authorize' && $_SERVER['REQUEST_METHOD'] == 'POST') {
-    $controller = new \App\Controllers\AuthorizationController();
-    $controller->login();
-} elseif($_SERVER['REQUEST_URI'] == ('/topic?' . $_SERVER['QUERY_STRING'])) {
-    $controller = new \App\Controllers\TopicController();
-    echo $controller->index();
-} elseif($_SERVER['REQUEST_URI'] == ('/article?' . $_SERVER['QUERY_STRING'])) {
-    $controller = new \App\Controllers\ArticleController();
-    echo $controller->index();
-}  elseif($_SERVER['REQUEST_URI'] == '/articles/store') {
-    $controller = new \App\Controllers\ArticleController();
-    echo $controller->store();
-}  elseif($_SERVER['REQUEST_URI'] == '/articles/create') {
-    $controller = new \App\Controllers\ArticleController();
-    echo $controller->create();
-} 
-?>
+switch ($route) {
+    case '/':
+        $controller = new \App\Controllers\MainController();
+        echo $controller->index();
+        break;
+    case '/users/store':
+        if($method == 'POST') {
+            $controller = new \App\Controllers\UserController();
+            $controller->store();
+        }
+        break;
+    case '/registration':
+        $controller = new \App\Controllers\RegistrationController();
+        $controller->index();
+        break;
+    case '/registration/create':
+        if($method == 'POST') {
+            $controller = new \App\Controllers\RegistrationController();
+            $controller->register();
+        }
+        break;
+    case '/login':
+        $controller = new \App\Controllers\AuthorizationController();
+        $controller->index();
+        break;
+    case '/login/authorize':
+        $controller = new \App\Controllers\AuthorizationController();
+        $controller->login();
+        break;
+    case "/topic?$id":
+        $controller = new \App\Controllers\TopicController();
+        echo $controller->index();
+        break;
+    case "/article?$id":
+        $controller = new \App\Controllers\ArticleController();
+        echo $controller->index();
+        break;
+    case '/articles/store':
+        $controller = new \App\Controllers\ArticleController();
+        echo $controller->store();
+        break;
+    case '/articles/create':
+        $controller = new \App\Controllers\ArticleController();
+        $controller->create();
+        break;
+    default:
+        echo ("404 Not Found");
+}

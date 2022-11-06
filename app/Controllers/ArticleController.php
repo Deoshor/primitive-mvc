@@ -20,13 +20,10 @@ class ArticleController
         foreach($comment as $item) {
             $user = new User();
             $user = $user->getUser($item['comment2user']);
-            foreach($user as $user_data) {
-                $item['author']  = $user_data['name'] . ' ' . $user_data['lastname'];
-                array_push($comments_data, $item);
-            }
+            $item['author']  = $user['name'] . ' ' . $user['lastname'];
+            array_push($comments_data, $item);
         }
         unset($comments_data[0]);
-        
         require_once 'resources/views/article.php';
     }
 

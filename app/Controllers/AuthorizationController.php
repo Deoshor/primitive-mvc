@@ -14,8 +14,8 @@ class AuthorizationController
     public function login()
     {
         $users = new User();
-        if($users->existsUser($users->table, $_POST)){
-            if($users->login($users->table, $_POST)){
+        if($users->isExistsUser($_POST)){
+            if($users->login($_POST)){
                 echo "Вы успешно авторизованы";
                 header('location: /');
             } else {

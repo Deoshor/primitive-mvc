@@ -15,13 +15,13 @@ class CommentModel
 
     public function getComment($id)
     {
-        return $this->database->getObject($id, $this->table);
+        return $this->database->getObjectById($this->table, $id);
     }
     
     public function getComments($id)
     {
         $id = substr($id, 3);
-        return $this->database->getComments($id, $this->table);
+        return $this->database->getComments($this->table, $id);
     }
  
 }

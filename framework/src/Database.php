@@ -16,14 +16,69 @@ class Database
         }
     }
 
-    public function get($table)
+    public function getAllDataFromTable($table)
     {
         $query = pg_query($this->connection, "SELECT * FROM $table");
-        return pg_fetch_all($query);
+        if(!$query) {
+            echo "<h3>Ой, что-то пошло не так!</h3>";
+            throw new Exception('Нет такой таблицы в БД');
+        } else {
+            return pg_fetch_all($query);
+        }
     }
 
-    public function create($table, $data)
+    public function getObjectById($table, $id)
+    {   
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE id = $id");
+        if(!$query) {
+            echo "<h3>Ой, что-то пошло не так!</h3>";
+            throw new Exception('Нет такой сущности в БД');
+        } else {
+            return pg_fetch_assoc($query);
+        }
+    }
+
+    public function getPassword($table, $email) 
     {
+        $query = pg_query($this->connection, "SELECT password FROM $table WHERE email = '$email'");
+        if(!$query) {
+            echo "<h3>Ой, что-то пошло не так!</h3>";
+            throw new Exception('Пароль не был получен, проверь БД');
+        } else {
+            return pg_fetch_assoc($query);
+        }
+    }
+
+    public function getArticles($table, $id)
+    {
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE article2topic = $id");
+        if(!$query) {
+            echo "<h3>Ой, что-то пошло не так!</h3>";
+            throw new Exception('Нет такой сущности в БД');
+        } else {
+            return pg_fetch_all($query);
+        }
+    }
+    
+    public function getComments($table, $id)
+    {
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE comment2article = $id");
+        if(!$query) {
+            echo "<h3>Ой, что-то пошло не так!</h3>";
+            throw new Exception('Нет такой сущности в БД');
+        } else {
+            return pg_fetch_all($query);
+        }
+    }
+
+    public function isExistsUser($table, $email)
+    {
+        return pg_query($this->connection, "SELECT * FROM $table WHERE email = '$email'");
+    }
+    
+
+    public function create($table, $data)
+    {   
         $columns = [];
         $values = [];
         
@@ -42,7 +97,6 @@ class Database
                 }
                 
             }
-            dd($data);
             $columns[] = $key;
             $values[] = "'".$value."'";
         }
@@ -50,17 +104,7 @@ class Database
         $columns = trim($columns);
         $values = implode(',', $values);
         $values = trim($values);
-        dd($values);
-        pg_query($this->connection, "INSERT INTO $table ($columns) VALUES ($values)");
-        $maxId = pg_query($this->connection, "SELECT max(id) FROM $table");
-        $maxId = pg_fetch_assoc($maxId);
-        return $this->getObject($table, $maxId['max']);
-    }
-
-    public function getObject($id, $table)
-    {   
-        $query = pg_query($this->connection, "SELECT * FROM $table WHERE id = $id");
-        return pg_fetch_all($query);
+        return pg_query($this->connection, "INSERT INTO $table ($columns) VALUES ($values)");
     }
 
     public function update($table, $id, $data)
@@ -69,28 +113,10 @@ class Database
         foreach($data[0] as $key => $value){
             $values .= " $key = '$value',";
         }
-        dd($values);
         $values = rtrim($values, ',');
         $query = pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
         return pg_fetch_assoc($query);
     }
 
-    public function login($table, $data)
-    {
-
-    }
-
-    public function getArticles($id, $table)
-    {
-        $query = pg_query($this->connection, "SELECT * FROM $table WHERE article2topic = $id");
-        return pg_fetch_all($query);
-    }
-    
-    public function getComments($id, $table)
-    {
-        $query = pg_query($this->connection, "SELECT * FROM $table WHERE comment2article = $id");
-        return pg_fetch_all($query);
-    }
-        
 }
 ?>

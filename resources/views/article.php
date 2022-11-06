@@ -34,9 +34,9 @@
     <div style="padding-top: 20px;">
         <div class="col-md-12">
             <h3 class="display-6">
-                <?php foreach($article as $item) {
-                    echo $item['article_name'];
-                } ?>
+                <?php
+                    echo $article['article_name'];
+                ?>
             </h3>
         </div>
         <div class="col-md-12 border-bottom">
@@ -44,9 +44,7 @@
                 <div class="col-4">
                     <p href="article.html">
                     <?php
-                    foreach($article as $item) {
-                        echo $item['article_description'];
-                    }
+                        echo $article['article_description'];
                     ?>
                     </p>
                 </div>

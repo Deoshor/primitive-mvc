@@ -13,17 +13,22 @@ class UserModel
         $this->database = new Database();
     }
 
-    public function get()
+    public function getAllDataFromTable()
     {
-        return $this->database->get($this->table);
+        return $this->database->getAllDataFromTable($this->table);
     }
 
-    public function create($data)
+    public function getUser($id)
+    {  
+        return $this->database->getObjectById($this->table, $id);
+    }
+
+    public function createUser($data)
     {
         return $this->database->create($this->table, $data);
     }
 
-    public function update($id, $data)
+    public function updateUser($id, $data)
     {
         return $this->database->update($this->table, $id, $data);
     }
@@ -46,40 +51,31 @@ class UserModel
         $image->saveImage($file);
     }
 
-    public function login($table, $data)
-    {
-        if(!$this->existsUser($table, $data)) {
-            echo "User does not exist";
-        } else {
-            $email = $data['email'];
-            $currentPassword = $data['password'];
-            $savedPassword = $this->getPassword($table, $email);
-            return $this->comparePassword($currentPassword, $savedPassword);
-        }
-    }
-
-    public function existsUser($table, $data)
+    public function login($data)
     {
         $email = $data['email'];
-        return pg_query($this->database->connection, "SELECT * FROM $table WHERE email = '$email'");
+        $currentPassword = $data['password'];
+        $savedPassword = $this->getPassword($email);
+        return $this->comparePassword($currentPassword, $savedPassword);
+        
     }
 
-    public function getPassword($table, $email) 
+    public function isExistsUser($data)
     {
-        $query = pg_query($this->database->connection, "SELECT password FROM $table WHERE email = '$email'");
-        return pg_fetch_assoc($query);
+        $email = $data['email'];
+        return $this->database->isExistsUser($this->table, $email);
     }
 
-    public function comparePassword($currentPassword, $savedPassword)
+    private function getPassword($email) 
+    {
+        return $this->database->getPassword($this->table, $email);
+    }
+
+    private function comparePassword($currentPassword, $savedPassword)
     {   
         if(password_verify($currentPassword, $savedPassword['password'])) {
             return true;
         }
-    }
-    
-    public function getUser($id)
-    {  
-        return $this->database->getObject($id, $this->table);
     }
 
 }

@@ -15,11 +15,11 @@ class TopicModel
     public function getTopic($id)
     {
         $id = substr($id, 3);
-        return $this->database->getObject($id, $this->table);
+        return $this->database->getObjectById($this->table, $id);
     }
 
     public function getTopics()
     {
-        return $this->database->get($this->table);
+        return $this->database->getAllDataFromTable($this->table);
     }
 }

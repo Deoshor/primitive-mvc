@@ -16,13 +16,13 @@ class ArticleModel
     public function getArticles($id)
     {
         $id = substr($id, 3);
-        return $this->database->getArticles($id, $this->table);
+        return $this->database->getArticles($this->table, $id);
     }
 
     public function getArticle($id)
     {   
         $id = substr($id, 3);
-        return $this->database->getObject($id, $this->table);
+        return $this->database->getObjectById($this->table, $id);
     }
 
     public function createArticle($data)

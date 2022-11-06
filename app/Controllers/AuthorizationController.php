@@ -8,7 +8,7 @@ class AuthorizationController
 {
     public function index()
     {
-        require_once('resources/views/login.html');
+        require_once('resources/views/login.php');
     } 
 
     public function login()
@@ -20,7 +20,7 @@ class AuthorizationController
                 header('location: /');
             } else {
                 echo "Попробуйте снова";
-                require_once('resources/views/login.html');
+                require_once('resources/views/login.php');
             }
         }
     }

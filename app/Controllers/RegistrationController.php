@@ -8,7 +8,7 @@ class RegistrationController
 {
     public function index()
     {
-        require_once 'resources/views/registration.html';
+        require_once 'resources/views/registration.php';
     }
 
     public function register()

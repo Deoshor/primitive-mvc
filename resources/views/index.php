@@ -3,7 +3,7 @@
 <?php require_once('layouts/head.html'); ?>
 
 <body class="antialiased">
-    <?php require_once('layouts/navbar.html'); ?>
+    <?php require_once('layouts/navbar.php'); ?>
     <div class="container mb-3">
         <div style="padding-top: 15px;">
             <div class="col-md-12">

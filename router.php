@@ -49,6 +49,8 @@ switch ($route) {
         $controller = new \App\Controllers\ArticleController();
         $controller->create();
         break;
+    case '/#':
+            continue;
     default:
         echo ("404 Not Found");
 }

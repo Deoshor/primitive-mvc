@@ -14,6 +14,7 @@ class Database
         if($this->connection == false){
             throw new Exception('Нет подключения к базе данных');
         }
+        session_start();
     }
 
     public function getAllDataFromTable($table)
@@ -74,6 +75,12 @@ class Database
     public function isExistsUser($table, $email)
     {
         return pg_query($this->connection, "SELECT * FROM $table WHERE email = '$email'");
+    }
+
+    public function getUserDataFromEmail($table, $email)
+    {
+        $query = pg_query($this->connection, "SELECT name,lastname FROM $table WHERE email = '$email'");
+        return pg_fetch_assoc($query);
     }
     
 

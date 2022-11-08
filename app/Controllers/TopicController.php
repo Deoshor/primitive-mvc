@@ -15,4 +15,9 @@ class TopicController
         $article = $articles->getArticles($_SERVER['QUERY_STRING']);
         require_once 'resources/views/topic.php';
     }
+
+    public function store()
+    {
+        
+    }
 }

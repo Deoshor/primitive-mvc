@@ -14,14 +14,23 @@ class AuthorizationController
     public function login()
     {
         $users = new User();
-        if($users->isExistsUser($_POST)){
-            if($users->login($_POST)){
-                echo "Вы успешно авторизованы";
-                header('location: /');
-            } else {
-                echo "Попробуйте снова";
-                require_once('resources/views/login.php');
-            }
+        if($users->login($_POST)){
+            $_SESSION['user'] = $_POST['email'];
+            $user_data = $users->getUserData($_POST);
+            $_SESSION['userData'] = $user_data['name'] . ' ' . $user_data['lastname'];
+            echo "<p>Вы успешно авторизованы<p>";
+            header('location: /');
+        } else {
+            $alert = 'Авторизация не прошла. Попробуйте снова';
+            require_once('resources/views/login.php');
+        }
+    }
+
+    public function logout()
+    {
+        if(isset($_SESSION)){
+            $_SESSION['user'] = null;
+            $_SESSION['userData'] = null;
         }
     }
 }

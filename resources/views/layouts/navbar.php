@@ -15,8 +15,7 @@
                     }
             
                     if ($_POST['logout'] == true) {
-                        $_SESSION['email'] = null;
-                        $_SESSION['userData'] = null;
+                        session_destroy();
                     } ?>
                 </div>
             </div>

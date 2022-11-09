@@ -37,6 +37,10 @@ switch ($route) {
         $controller = new \App\Controllers\TopicController();
         echo $controller->index();
         break;
+    case "/topic/create":
+        $controller = new \App\Controllers\TopicController();
+        echo $controller->create();
+        break;
     case "/article?$id":
         $controller = new \App\Controllers\ArticleController();
         echo $controller->index();
@@ -49,8 +53,6 @@ switch ($route) {
         $controller = new \App\Controllers\ArticleController();
         $controller->create();
         break;
-    case '/#':
-            continue;
     default:
         echo ("404 Not Found");
 }

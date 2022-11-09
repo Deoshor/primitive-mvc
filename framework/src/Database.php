@@ -82,6 +82,12 @@ class Database
         $query = pg_query($this->connection, "SELECT name,lastname FROM $table WHERE email = '$email'");
         return pg_fetch_assoc($query);
     }
+
+    public function getUserIdFromEmail($table, $email)
+    {
+        $query = pg_query($this->connection, "SELECT id FROM $table WHERE email = '$email'");
+        return pg_fetch_assoc($query);
+    }
     
 
     public function create($table, $data)

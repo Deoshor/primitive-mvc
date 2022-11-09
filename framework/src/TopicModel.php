@@ -22,4 +22,9 @@ class TopicModel
     {
         return $this->database->getAllDataFromTable($this->table);
     }
+
+    public function createTopic($data)
+    {
+        return $this->database->create($this->table, $data);
+    }
 }

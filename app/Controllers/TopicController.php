@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Topic;
 use App\Models\Article;
+use App\Models\User;
 
 class TopicController
 {
@@ -16,8 +17,14 @@ class TopicController
         require_once 'resources/views/topic.php';
     }
 
-    public function store()
+    public function create()
     {
-        
+        $topics = new Topic();
+        $user = new User();
+        $id = $user->getUserId($_SESSION);
+        $data['topic_name'] = $_POST['topic_name'];
+        $data['topic2user'] = $id['id'];
+        $topic = $topics->createTopic($data);
+        header('Location: /');
     }
 }

@@ -29,6 +29,12 @@ class UserModel
         return $this->database->getUserDataFromEmail($this->table, $email);
     }
 
+    public function getUserId($data)
+    {  
+        $email = $data['email'];
+        return $this->database->getUserIdFromEmail($this->table, $email);
+    }
+
     public function createUser($data)
     {
         return $this->database->create($this->table, $data);

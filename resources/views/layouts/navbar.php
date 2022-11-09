@@ -4,20 +4,20 @@
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav navbar-dark">
                     <a class="nav-link active" aria-current="page" href="/">Главная</a>
-                    <?php if (!isset($_SESSION['user'])) {
-                        echo '<a class="nav-link" href="/login">Авторизация</a><a class="nav-link" href="/registration">Регистрация</a>';
-                    } ?>
-                    <?php if (isset($_SESSION['user'])) {
+                    <?php if (isset($_SESSION['email'])) {
                         echo '<form class="d-flex position-absolute end-0 me-3" method="POST">
                         <a class="nav-link disabled" style="color:aliceblue" tabindex="-1" aria-disabled="true">' . $_SESSION['userData'] . '</a>
                         <input type="hidden" name="logout" value="true" />
                         <button class="btn btn-outline-light" type="submit">Выйти</button>
-                    </form>';
-                    } ?>
-                    <?php if ($_POST['logout'] == true) {
-                        $_SESSION['user'] = null;
+                    </form>';  
+                    } else {
+                        echo '<a class="nav-link" href="/login">Авторизация</a><a class="nav-link" href="/registration">Регистрация</a>';
+                    }
+            
+                    if ($_POST['logout'] == true) {
+                        $_SESSION['email'] = null;
                         $_SESSION['userData'] = null;
-                    }; ?>
+                    } ?>
                 </div>
             </div>
         </div>

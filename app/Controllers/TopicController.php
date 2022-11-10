@@ -27,4 +27,20 @@ class TopicController
         $topic = $topics->createTopic($data);
         header('Location: /');
     }
+
+    public function edit()
+    {
+        $topics = new Topic;
+        $topic = $topics->getTopicById($_REQUEST['id']);
+        require_once 'resources/views/editTopic.php';
+    }
+
+    public function update()
+    {
+        $topics = new Topic;
+        $id = $_POST['topic_id'];
+        unset($_POST['topic_id']);
+        $topic = $topics->updateTopic($id, $_POST);
+        header('Location: /');
+    }
 }

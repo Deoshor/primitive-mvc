@@ -27,4 +27,14 @@ class TopicModel
     {
         return $this->database->create($this->table, $data);
     }
+
+    public function getTopicById($data)
+    {
+        return $this->database->getObjectById($this->table, $data);
+    }
+    
+    public function updateTopic($id, $data)
+    {
+        return $this->database->updateObject($this->table, $id, $data);
+    }
 }

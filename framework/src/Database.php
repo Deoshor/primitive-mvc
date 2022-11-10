@@ -19,7 +19,7 @@ class Database
 
     public function getAllDataFromTable($table)
     {
-        $query = pg_query($this->connection, "SELECT * FROM $table");
+        $query = pg_query($this->connection, "SELECT * FROM $table ORDER BY id");
         if(!$query) {
             echo "<h3>Ой, что-то пошло не так!</h3>";
             throw new Exception('Нет такой таблицы в БД');
@@ -120,10 +120,10 @@ class Database
         return pg_query($this->connection, "INSERT INTO $table ($columns) VALUES ($values)");
     }
 
-    public function update($table, $id, $data)
+    public function updateObject($table, $id, $data)
     {
         $values = '';
-        foreach($data[0] as $key => $value){
+        foreach($data as $key => $value){
             $values .= " $key = '$value',";
         }
         $values = rtrim($values, ',');

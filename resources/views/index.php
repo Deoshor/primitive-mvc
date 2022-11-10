@@ -50,21 +50,20 @@
             <div class="col-12">Тематики</div>
         </div>
         <?php
-            foreach ($topic as $item) {
-                echo '
-                    <div class="row border border-dark rounded shadow-sm p-3 mb-1">
-                        <div class="col-10">
+        foreach ($topic as $item) {      
+            echo '<div class="row border border-dark rounded shadow-sm p-3 mb-1">
+                        <div class="col-10 pt-2">
                             <a class="link-dark" href=/topic?id=' . $item['id'] . '>' . $item['topic_name'] . '</a>
                         </div>';
-                        if (isset($_SESSION['email']) && $_SESSION['id'] == $item['topic2user']){
-                            echo '<div class="col-1">
+            if (isset($_SESSION['email']) && $_SESSION['id'] == $item['topic2user']) { 
+                echo '<div class="col-1">
                             <a class="link-dark" href=/topic/edit?id=' . $item['id'] . '>
-                                <svg style="color:green" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                                </svg>
-                          </a>
+                                    <svg style="color:green" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                    </svg>
+                            </a>
                         </div>';
-                            echo '<div class="col-1">
+                echo '<div class="col-1 pt-2">
                             <a class="link-dark" href=/topic/delete?id=' . $item['id'] . '>
                                 <svg style="color:red" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -72,15 +71,15 @@
                                 </svg>
                             </a>
                         </div>';
-                        } else if (isset($_SESSION['email'])) {
-                            echo '<div class="col-1">
-                            <a class="link-dark disabled" href=#>
+            } else if (isset($_SESSION['email'])) {
+                echo '<div class="col-1">
+                            <button type="button align-middle" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <svg style="color:gray" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
                                 <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
                                 </svg>
-                          </a>
+                            </button>
                         </div>';
-                            echo '<div class="col-1">
+                echo '<div class="col-1 pt-2">
                             <a class="link-dark disabled" href=#>
                                 <svg style="color:gray" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
@@ -88,12 +87,10 @@
                                 </svg>
                             </a>
                         </div>';
-                        }
-                        
-                        
-                    echo '</div>';
-                }
-                ?>
+            }
+            echo '</div>';
+        }
+        ?>
     </div>
 
     <script>

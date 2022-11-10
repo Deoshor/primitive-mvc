@@ -17,15 +17,21 @@
         </div>
     </div>
 
-    <div class="container">
-        <ul class="list-group">
-            <li class="list-group-item list-group-item-action list-group-item-primary mb-2" aria-current="true"><?php echo $topic['topic_name']; ?></li>
-            <?php
-            foreach ($article as $item) {
-                echo "<li class=\"list-group-item list-group-item-action shadow-sm p-3 mb-1 bg-body\"><a class=\"link-dark\"href=\"/article?id=" . $item['id'] . "\">" . $item['article_name'] . "</a></li>";
-            }
-            ?>
-        </ul>
+
+    <div class="container px-4">
+        <div class="row bg-light bg-gradient border rounded shadow-sm p-3 mb-2">
+            <div class="col-12"><?php echo $topic['topic_name']; ?></div>
+        </div>
+        <?php
+        foreach ($article as $item) {
+            echo '<div class="row border border-dark rounded shadow-sm p-3 mb-1">
+                        <div class="col-10">
+                            <a class="link-dark" href=/article?id=' . $item['id'] . ">" . $item['article_name'] . '</a>
+                        </div>
+                    </div>';
+
+        }
+        ?>
     </div>
 
     <?php require_once('layouts/endLayout.html'); ?>

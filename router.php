@@ -48,7 +48,11 @@ switch ($route) {
     case "/topic/update":
         $controller = new \App\Controllers\TopicController();
         $controller->update();
-        break;        
+        break;
+    case "/topic/delete?$id":
+        $controller = new \App\Controllers\TopicController();
+        $controller->delete();
+        break;            
     case "/article?$id":
         $controller = new \App\Controllers\ArticleController();
         echo $controller->index();

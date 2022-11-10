@@ -25,7 +25,7 @@ class TopicModel
 
     public function createTopic($data)
     {
-        return $this->database->create($this->table, $data);
+        return $this->database->createObject($this->table, $data);
     }
 
     public function getTopicById($data)
@@ -36,5 +36,10 @@ class TopicModel
     public function updateTopic($id, $data)
     {
         return $this->database->updateObject($this->table, $id, $data);
+    }
+
+    public function deleteTopic($id)
+    {
+        return $this->database->deleteObject($this->table, $id);
     }
 }

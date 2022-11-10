@@ -90,7 +90,7 @@ class Database
     }
     
 
-    public function create($table, $data)
+    public function createObject($table, $data)
     {   
         $columns = [];
         $values = [];
@@ -128,6 +128,12 @@ class Database
         }
         $values = rtrim($values, ',');
         $query = pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
+        return pg_fetch_assoc($query);
+    }
+
+    public function deleteObject($table, $id)
+    {
+        $query = pg_query($this->connection, "DELETE FROM $table WHERE id = $id;");
         return pg_fetch_assoc($query);
     }
 

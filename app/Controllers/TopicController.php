@@ -43,4 +43,11 @@ class TopicController
         $topic = $topics->updateTopic($id, $_POST);
         header('Location: /');
     }
+
+    public function delete()
+    {
+        $topics = new Topic;
+        $topic = $topics->deleteTopic($_REQUEST['id']);
+        header('Location: /');
+    }
 }

@@ -79,7 +79,7 @@ class Database
 
     public function getUserDataFromEmail($table, $email)
     {
-        $query = pg_query($this->connection, "SELECT name,lastname FROM $table WHERE email = '$email'");
+        $query = pg_query($this->connection, "SELECT id,name,lastname FROM $table WHERE email = '$email'");
         return pg_fetch_assoc($query);
     }
 

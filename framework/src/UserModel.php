@@ -23,6 +23,18 @@ class UserModel
         return $this->database->getObjectById($this->table, $id);
     }
 
+    public function getUserData($data)
+    {  
+        $email = $data['email'];
+        return $this->database->getUserDataFromEmail($this->table, $email);
+    }
+
+    public function getUserId($data)
+    {  
+        $email = $data['email'];
+        return $this->database->getUserIdFromEmail($this->table, $email);
+    }
+
     public function createUser($data)
     {
         return $this->database->create($this->table, $data);
@@ -53,17 +65,28 @@ class UserModel
 
     public function login($data)
     {
-        $email = $data['email'];
-        $currentPassword = $data['password'];
-        $savedPassword = $this->getPassword($email);
-        return $this->comparePassword($currentPassword, $savedPassword);
-        
+        if ($this->isExistsUser($data)) {
+            $email = $data['email'];
+            $currentPassword = $data['password'];
+            $savedPassword = $this->getPassword($email);
+            return $this->comparePassword($currentPassword, $savedPassword);
+        }
     }
 
     public function isExistsUser($data)
     {
         $email = $data['email'];
         return $this->database->isExistsUser($this->table, $email);
+    }
+
+    public function validatePassword($data)
+    {
+        $currentPassword = $data['password'];
+        if (!preg_match_all("[0-9A-Za-z]{3}", $currentPassword)){
+            return 'Ошибка валидации';
+        } else {
+            return $currentPassword;
+        }
     }
 
     private function getPassword($email) 

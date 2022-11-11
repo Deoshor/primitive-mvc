@@ -37,6 +37,22 @@ switch ($route) {
         $controller = new \App\Controllers\TopicController();
         echo $controller->index();
         break;
+    case "/topic/create":
+        $controller = new \App\Controllers\TopicController();
+        echo $controller->create();
+        break;
+    case "/topic/edit?$id":
+        $controller = new \App\Controllers\TopicController();
+        $controller->edit();
+        break; 
+    case "/topic/update":
+        $controller = new \App\Controllers\TopicController();
+        $controller->update();
+        break;
+    case "/topic/delete?$id":
+        $controller = new \App\Controllers\TopicController();
+        $controller->delete();
+        break;            
     case "/article?$id":
         $controller = new \App\Controllers\ArticleController();
         echo $controller->index();

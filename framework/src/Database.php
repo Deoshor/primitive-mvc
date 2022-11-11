@@ -14,11 +14,12 @@ class Database
         if($this->connection == false){
             throw new Exception('Нет подключения к базе данных');
         }
+        session_start();
     }
 
     public function getAllDataFromTable($table)
     {
-        $query = pg_query($this->connection, "SELECT * FROM $table");
+        $query = pg_query($this->connection, "SELECT * FROM $table ORDER BY id");
         if(!$query) {
             echo "<h3>Ой, что-то пошло не так!</h3>";
             throw new Exception('Нет такой таблицы в БД');
@@ -51,7 +52,7 @@ class Database
 
     public function getArticles($table, $id)
     {
-        $query = pg_query($this->connection, "SELECT * FROM $table WHERE article2topic = $id");
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE article2topic = $id ORDER BY id");
         if(!$query) {
             echo "<h3>Ой, что-то пошло не так!</h3>";
             throw new Exception('Нет такой сущности в БД');
@@ -75,9 +76,21 @@ class Database
     {
         return pg_query($this->connection, "SELECT * FROM $table WHERE email = '$email'");
     }
+
+    public function getUserDataFromEmail($table, $email)
+    {
+        $query = pg_query($this->connection, "SELECT id,name,lastname FROM $table WHERE email = '$email'");
+        return pg_fetch_assoc($query);
+    }
+
+    public function getUserIdFromEmail($table, $email)
+    {
+        $query = pg_query($this->connection, "SELECT id FROM $table WHERE email = '$email'");
+        return pg_fetch_assoc($query);
+    }
     
 
-    public function create($table, $data)
+    public function createObject($table, $data)
     {   
         $columns = [];
         $values = [];
@@ -107,14 +120,20 @@ class Database
         return pg_query($this->connection, "INSERT INTO $table ($columns) VALUES ($values)");
     }
 
-    public function update($table, $id, $data)
+    public function updateObject($table, $id, $data)
     {
         $values = '';
-        foreach($data[0] as $key => $value){
+        foreach($data as $key => $value){
             $values .= " $key = '$value',";
         }
         $values = rtrim($values, ',');
         $query = pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
+        return pg_fetch_assoc($query);
+    }
+
+    public function deleteObject($table, $id)
+    {
+        $query = pg_query($this->connection, "DELETE FROM $table WHERE id = $id;");
         return pg_fetch_assoc($query);
     }
 

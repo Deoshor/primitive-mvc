@@ -4,7 +4,7 @@
 <?php require_once('layouts/head.html'); ?>
 
 <body class="antialiased">
-    <?php require_once('layouts/navbar.html'); ?>
+    <?php require_once('layouts/navbar.php'); ?>
 
     <div class="container">
         <div style="padding-top: 20px;">
@@ -24,6 +24,7 @@
                             <button type="submit" class="btn-primary btn">Войти</button>
                         </div>
                     </form>
+                    <?php if(isset($alert)) { echo '<div class="alert alert-primary" role="alert">' . $alert. '<div>'; } ?>
                 </div>
             </div>
         </div>

@@ -27,12 +27,12 @@ class ArticleModel
 
     public function createArticle($data)
     {
-        return $this->database->create($this->table, $data);
+        return $this->database->createObject($this->table, $data);
     }
 
     public function updateArticle($id, $data)
     {
-        return $this->database->update($this->table, $id, $data);
+        return $this->database->updateObject($this->table, $id, $data);
     }
 
 }

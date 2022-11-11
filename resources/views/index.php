@@ -11,7 +11,7 @@
                     <div class="col">
                         <?php
                         if (isset($_SESSION['email'])) {
-                            echo    '<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            echo    '<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#topicModal">
                                         Создать тему
                                     </button>';
                         }
@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="topicModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -32,7 +32,7 @@
                 <div class="container">
                     <form action="/topic/create" method="POST">
                         <div class="mb-3 mt-3">
-                            <input type="text" name="topic_name" class="form-control" id="topic_name">
+                            <input type="text" name="topic_name" class="form-control" id="topic_name" required>
                             <div class="form-text">Введите заголовок предлагаемой темы</div>
                         </div>
                         <div class="modal-footer">

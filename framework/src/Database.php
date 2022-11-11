@@ -52,7 +52,7 @@ class Database
 
     public function getArticles($table, $id)
     {
-        $query = pg_query($this->connection, "SELECT * FROM $table WHERE article2topic = $id");
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE article2topic = $id ORDER BY id");
         if(!$query) {
             echo "<h3>Ой, что-то пошло не так!</h3>";
             throw new Exception('Нет такой сущности в БД');

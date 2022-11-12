@@ -94,21 +94,21 @@ class Database
     {   
         $columns = [];
         $values = [];
-        
+
         foreach($data as $key => $value){
             if($key == 'password') {
                 $columns[] = $key;
                 $values[] = "'". password_hash($value,  PASSWORD_DEFAULT) ."'";
                 break;
             }
-            if($key == 'article_file') {
-                foreach($values as $item) {
-                    dd($item);
-                    $columns[] = $key;
-                    $values[] = $item;
-                    break;
+            if($key == 'article_files') {
+                $files = null;
+                foreach ($data['article_files'] as $file) {
+                    $files .= $file . ',';
                 }
-                
+                $columns[] = $key;
+                $values[] = "'" . trim($files) . "'";
+                break;
             }
             $columns[] = $key;
             $values[] = "'".$value."'";
@@ -133,6 +133,7 @@ class Database
 
     public function deleteObject($table, $id)
     {
+        dd("DELETE FROM $table WHERE id = $id;");
         $query = pg_query($this->connection, "DELETE FROM $table WHERE id = $id;");
         return pg_fetch_assoc($query);
     }

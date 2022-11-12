@@ -8,7 +8,7 @@ class ImageService implements Image
 {
     public function saveImage($dir, $file)
     {
-        move_uploaded_file($file, 'C:\Users\user\Documents\php\oop\storage\\'. $dir . '\\' .$file);
+        move_uploaded_file($file, $dir . '\\' .$file);
     }
 
     public function validateSize($file)
@@ -51,6 +51,15 @@ class ImageService implements Image
         } else {
             return true;
         }
+    }
 
+    public function uniqImageName($data)
+    {
+        $names = [];
+        foreach ($data as $name) {
+            $name = basename($name);
+            $names[] = random_int(0, 999999999) . '_' . $name;
+        }
+        return $names;
     }
 }

@@ -30,9 +30,19 @@ class ArticleModel
         return $this->database->createObject($this->table, $data);
     }
 
+    public function getArticleById($data)
+    {
+        return $this->database->getObjectById($this->table, $data);
+    }
+    
     public function updateArticle($id, $data)
     {
         return $this->database->updateObject($this->table, $id, $data);
+    }
+
+    public function deleteArticle($id)
+    {
+        return $this->database->deleteObject($this->table, $id);
     }
 
 }

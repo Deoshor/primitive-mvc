@@ -10,7 +10,7 @@
         <div style="padding-top: 20px;">
             <div class="row justify-content-center">
                 <div class="col-md-7 border">
-                    <h2>Редактирование темы</h2>
+                    <h2>Редактирование статьи</h2>
                     <form action="/topic/update" method="POST">
                         <div class="form-group mt-3">
                             <input type="text" required name="topic_name" class="form-control" placeholder="<?php echo $topic['topic_name'] ?>">

@@ -12,15 +12,67 @@
                     <?php
                     if (isset($_SESSION['email']) && $_SESSION['id'] == $article['article2user']) {
                         echo    '<div class="col-2">
-                            <button class="btn btn-outline-success" data-toggle="modal" data-target="#articleModal">Редактировать статью</button>
+                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#articleEditModal">Редактировать тему</button>
                         </div>
                         <div class="col-2">
-                            <button class="btn btn-outline-danger" data-toggle="modal" data-target="#articleModal">Удалить статью</button>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#articleDeleteModal">Удалить статью</button>
                         </div>
                         <div class="col-8">
                         </div>';
                     }
                     ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="articleEditModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Редактирование статьи</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="container">
+                    <form action="/topic/create" method="POST">
+                        <div class="mb-3 mt-3">
+                            <input type="text" name="article_name" class="form-control" id="article_name" value="<?php echo $article['article_name']; ?>">
+                            <div class="form-text">Редактируйте название статьи</div>
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <input type="text" name="article_description" class="form-control" id="article_description" value="<?php echo $article['article_description']; ?>">
+                            <div class="form-text">Введите описание статьи</div>
+                        </div>
+                        <div class="mb-3 mt-3">
+                            <input type="file" name="article_files[]" multiple class="form-control" id="article_file">
+                            <div class="form-text">Можно добавить фотографии в формате jpeg/png размером до 3мб</div>
+                            <input type="hidden" name="article2topic" multiple class="form-control" id="topic_id" value="<?php echo $topic['id']; ?>">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-success">Редактировать</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="articleDeleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Удалить статью?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="container">
+                    <form action="/article/delete" method="POST">
+                        <input type="hidden" name="article_id" class="form-control" id="article_id" value="<?php echo $article['id']; ?>">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -34,22 +86,17 @@
             <?php echo $article['article_description']; ?>
         </div>
         <div class="row">
-            <div id="carouselArticleFade" class="col-md-8 mx-auto carousel slide carousel-fade mb-3 w-50" data-bs-ride="carousel">
-                <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#carouselArticleFade" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#carouselArticleFade" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#carouselArticleFade" data-bs-slide-to="2" aria-label="Slide 3"></button>
-                </div>
+            <div id="carouselArticleFade" class="col-md-8 mx-auto carousel carousel-dark slide carousel-fade mb-3 w-50" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="/storage/articles/Toyota.png" class="d-block w-100" alt="Toyota">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/storage/articles/Toyota Crown.jpg" class="d-block w-100" alt="Toyota Crown">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="/storage/articles/Toyota Cresta.jpg" class="d-block w-100" alt="Toyota Cresta">
-                    </div>
+                    <?php 
+                        $images = explode(",", $article['article_files']);
+                        array_pop($images);
+                        foreach ($images as $image) {
+                            echo '<div class="carousel-item active">
+                                    <img src="/storage/articles/' . $image . '" class="d-block w-100" alt="' . $image . '">
+                                </div>';
+                        }
+                    ?>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselArticleFade" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -85,8 +132,8 @@
                         <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
                         </svg>
                     </a>
-                </div>';   
-            }         
+                </div>';
+            }
             echo '</div>';
         }
         ?>
@@ -107,6 +154,13 @@
         </div>
     </div>
 
+    <script>
+        var myModal = document.getElementById('myModal')
+        var myInput = document.getElementById('myInput')
 
+        myModal.addEventListener('shown.bs.modal', function() {
+            myInput.focus()
+        })
+    </script>
 
     <?php require_once('layouts/endLayout.html'); ?>

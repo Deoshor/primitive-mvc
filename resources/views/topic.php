@@ -43,7 +43,7 @@
                         <div class="mb-3 mt-3">
                             <input type="file" name="article_files[]" multiple class="form-control" id="article_file">
                             <div class="form-text">Можно загрузить фотографию в формате jpeg/png размером до 3мб</div>
-                            <input type="hidden" name="topic_id" multiple class="form-control" id="topic_id" value="<?php echo $topic['id']; ?>">
+                            <input type="hidden" name="article2topic" multiple class="form-control" id="topic_id" value="<?php echo $topic['id']; ?>">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>

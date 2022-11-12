@@ -33,14 +33,35 @@ class ArticleController
         $imageService = new ImageService;
         if ($imageService->validateSize($_FILES) && $imageService->validateType($_FILES)) {
             $articles = new Article();
+            $data_article = $_POST;
+            $data_article['article2user'] = $_SESSION['id'];
+            $data_article['article_files'] = $imageService->uniqImageName($_FILES['article_files']['name']);
+            $article = $articles->createArticle($data_article);
             $dir = substr(__DIR__, 0, -15) . 'storage\articles\\';
-            dd(basename($_FILES['article_files']['name'][0]));
-        }
-        
+            
 
-        //         $dir = 'C:\Users\user\Documents\php\oop\storage\articles\\' . basename($_FILES['file']['name']);
-        //         move_uploaded_file($_FILES['file']['tmp_name'], $dir);
-        //         $articles->updateArticle($articles[0]['id'], $articles);
-        //         header('location: /');
+            $data_file = array_combine($_FILES['article_files']['tmp_name'], $data_article['article_files']);
+            foreach ($data_file as $key => $value) {
+                move_uploaded_file($key, $dir . $value);
+            }
+            header("Location: " . $_SERVER['HTTP_REFERER']);
+        }
+    }
+
+    public function edit()
+    {
+        $articles = new Article;
+        $article = $articles->getArticleById($_REQUEST['id']);
+        require_once 'resources/views/editArticle.php';
+    }
+
+    public function update()
+    {
+    }
+
+    public function delete()
+    {
+        $articles = new Article;
+        $article = $articles->deleteArticle($_POST['article_id']);
     }
 }

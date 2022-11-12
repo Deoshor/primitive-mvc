@@ -57,11 +57,7 @@ switch ($route) {
         $controller = new \App\Controllers\ArticleController();
         echo $controller->index();
         break;
-    case '/articles/store':
-        $controller = new \App\Controllers\ArticleController();
-        echo $controller->store();
-        break;
-    case '/articles/create':
+    case '/article/create':
         $controller = new \App\Controllers\ArticleController();
         $controller->create();
         break;

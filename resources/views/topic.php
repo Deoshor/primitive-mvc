@@ -31,7 +31,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
                 <div class="container">
-                    <form action="/topic/create" method="POST" enctype="multipart/form-data">
+                    <form action="/article/create" method="POST" enctype="multipart/form-data">
                         <div class="mb-3 mt-3">
                             <input type="text" name="article_name" class="form-control" id="article_name">
                             <div class="form-text">Введите заголовок предлагаемой статьи</div>
@@ -43,13 +43,14 @@
                         <div class="mb-3 mt-3">
                             <input type="file" name="article_files[]" multiple class="form-control" id="article_file">
                             <div class="form-text">Можно загрузить фотографию в формате jpeg/png размером до 3мб</div>
+                            <input type="hidden" name="topic_id" multiple class="form-control" id="topic_id" value="<?php echo $topic['id']; ?>">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                             <button type="submit" class="btn btn-primary">Создать</button>
                         </div>
                     </form>
-                </div>
+                </div>  
             </div>
         </div>
     </div>

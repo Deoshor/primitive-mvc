@@ -17,7 +17,8 @@ class ArticleController
         $comments = new Comment();
         $comment = $comments->getComments($_SERVER['QUERY_STRING']);
 
-        $comments_data[] = array();
+        $comments_data = [];
+        array_push($comments_data, $comment['last_update_date']);
         foreach ($comment as $item) {
             $user = new User();
             $user = $user->getUser($item['comment2user']);

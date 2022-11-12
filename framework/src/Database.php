@@ -63,7 +63,7 @@ class Database
     
     public function getComments($table, $id)
     {
-        $query = pg_query($this->connection, "SELECT * FROM $table WHERE comment2article = $id");
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE comment2article = $id ORDER BY last_update_date desc");
         if(!$query) {
             echo "<h3>Ой, что-то пошло не так!</h3>";
             throw new Exception('Нет такой сущности в БД');

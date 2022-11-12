@@ -85,10 +85,12 @@
         <div class="card-body mb-3">
             <?php echo $article['article_description']; ?>
         </div>
-        <div class="row">
-            <div id="carouselArticleFade" class="col-md-8 mx-auto carousel carousel-dark slide carousel-fade mb-3 w-50" data-bs-ride="carousel">
-                <div class="carousel-inner">
+        
                     <?php 
+                    if (isset($article['article_files'])) {
+                        echo '<div class="row">
+                                <div id="carouselArticleFade" class="col-md-8 mx-auto carousel carousel-dark slide carousel-fade mb-3 w-50" data-bs-ride="carousel">
+                            <div class="carousel-inner">';
                         $images = explode(",", $article['article_files']);
                         array_pop($images);
                         foreach ($images as $image) {
@@ -96,28 +98,31 @@
                                     <img src="/storage/articles/' . $image . '" class="d-block w-100" alt="' . $image . '">
                                 </div>';
                         }
+                        echo '</div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselArticleFade" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Предыдущий</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselArticleFade" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Следующий</span>
+                            </button>
+                        </div>
+                    </div>';
+                    }
                     ?>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselArticleFade" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Предыдущий</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselArticleFade" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Следующий</span>
-                </button>
-            </div>
-        </div>
+                
 
 
         <?php
         foreach ($comments_data as $item) {
-            echo '<div class="row border border-light rounded bg-secondary bg-gradient mt-1 mb-1" style="--bs-bg-opacity: .1">
+            echo '<div class="row border border-light rounded bg-secondary bg-gradient mt-1 mb-1 w-50" style="--bs-bg-opacity: .1">
                         <div class="col-10 p-1">
+                            <p>' . $item['last_update_date'] . '</p>
                             <strong>' . $item['author'] . '</strong>
                             <p>' . $item['comment'] . '</p>
                         </div>';
-            if ($_SESSION['id'] == $item['comment2user']) {
+            //if ($_SESSION['id'] == $item['comment2user']) {
                 echo '<div class="col-1 p-1">
                     <a class="link-dark" href=/comment/edit?id=' . $item['id'] . '>
                         <svg style="color:green" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -133,7 +138,7 @@
                         </svg>
                     </a>
                 </div>';
-            }
+            //}
             echo '</div>';
         }
         ?>

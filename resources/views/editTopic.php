@@ -13,7 +13,7 @@
                     <h2>Редактирование темы</h2>
                     <form action="/topic/update" method="POST">
                         <div class="form-group mt-3">
-                            <input type="text" required name="topic_name" class="form-control" placeholder="<?php echo $topic['topic_name'] ?>">
+                            <input type="text" required name="topic_name" class="form-control" value="<?php echo $topic['topic_name'] ?>">
                             <input type="hidden" name="topic_id" class="form-control" value="<?php echo $topic['id'] ?>">
                         </div>
                         <div class="form-group mt-3 mb-2">

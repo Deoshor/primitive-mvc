@@ -3,6 +3,7 @@
 namespace Framework\Src;
 
 use Framework\Src\Database;
+use Exception;
 
 class ArticleModel
 {
@@ -35,14 +36,39 @@ class ArticleModel
         return $this->database->getObjectById($this->table, $data);
     }
     
-    public function updateArticle($id, $data)
+    public function updateArticle($id, $data, $images)
     {
+        foreach ($images as $image) {
+            array_push($data['article_files'], $image);
+        }
         return $this->database->updateObject($this->table, $id, $data);
     }
 
     public function deleteArticle($id)
     {
+        $images = $this->getImages($id);
+        if (isset($images)) {
+            $dir = substr(__DIR__, 0, -13) . 'storage\articles\\';
+            $data_images = [];
+            foreach ($images as $image) {
+                $data_images = explode(',', $image);
+            }
+            foreach ($data_images as $item) {
+                if ($item != "") {
+                    try {
+                        unlink($dir . $item);
+                    } catch (Exception $e) {
+                        echo $e->getMessage(), "\n";
+                    }
+                } 
+            }
+        }
         return $this->database->deleteObject($this->table, $id);
+    }
+
+    public function getImages($id)
+    {
+        return $this->database->getImages($this->table, $id);
     }
 
 }

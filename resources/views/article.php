@@ -34,7 +34,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
                 <div class="container">
-                    <form action="/topic/create" method="POST">
+                    <form action="/article/update" method="POST" enctype="multipart/form-data">
                         <div class="mb-3 mt-3">
                             <input type="text" name="article_name" class="form-control" id="article_name" value="<?php echo $article['article_name']; ?>">
                             <div class="form-text">Редактируйте название статьи</div>
@@ -46,7 +46,7 @@
                         <div class="mb-3 mt-3">
                             <input type="file" name="article_files[]" multiple class="form-control" id="article_file">
                             <div class="form-text">Можно добавить фотографии в формате jpeg/png размером до 3мб</div>
-                            <input type="hidden" name="article2topic" multiple class="form-control" id="topic_id" value="<?php echo $topic['id']; ?>">
+                            <input type="hidden" name="id" class="form-control" id="topic_id" value="<?php echo $article['id']; ?>">
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -68,6 +68,7 @@
                 <div class="container">
                     <form action="/article/delete" method="POST">
                         <input type="hidden" name="article_id" class="form-control" id="article_id" value="<?php echo $article['id']; ?>">
+                        <input type="hidden" name="topic_id" class="form-control" id="topic_id" value="<?php echo $article['article2topic'] ?>">
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                             <button type="submit" class="btn btn-danger">Удалить</button>

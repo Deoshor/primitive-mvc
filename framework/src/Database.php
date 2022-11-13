@@ -124,8 +124,13 @@ class Database
     {
         $values = '';
         foreach($data as $key => $value){
+            if ($key == 'article_files') {
+                $value = implode(',', $value);
+                $key = 'article_files';
+            }
             $values .= " $key = '$value',";
         }
+        
         $values = rtrim($values, ',');
         $query = pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
         return pg_fetch_assoc($query);
@@ -133,8 +138,13 @@ class Database
 
     public function deleteObject($table, $id)
     {
-        dd("DELETE FROM $table WHERE id = $id;");
         $query = pg_query($this->connection, "DELETE FROM $table WHERE id = $id;");
+        return pg_fetch_assoc($query);
+    }
+
+    public function getImages($table, $id)
+    {
+        $query = pg_query($this->connection, "SELECT article_files FROM $table WHERE id = $id");
         return pg_fetch_assoc($query);
     }
 

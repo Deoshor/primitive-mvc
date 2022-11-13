@@ -11,12 +11,12 @@ class ImageService implements Image
         move_uploaded_file($file, $dir . '\\' .$file);
     }
 
-    public function validateSize($file)
+    public function validateSize($files)
     {
         $max_size_image = 3145728;
-
+        
         $valid = false;
-        foreach ($file['article_files']['size'] as $value) {
+        foreach ($files['article_files']['size'] as $value) {
             if ($value <= $max_size_image) {
                 $valid = true;
             } else {
@@ -32,12 +32,12 @@ class ImageService implements Image
         }
     }
 
-    public function validateType($file)
+    public function validateType($files)
     {
         $types_image = ['image/jpeg', 'image/png'];
 
         $valid = false;
-        foreach ($file['article_files']['type'] as $value) {
+        foreach ($files['article_files']['type'] as $value) {
             if ($value == $types_image[0] || $value == $types_image[1]) {
                 $valid = true;
             } else {

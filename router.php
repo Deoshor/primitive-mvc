@@ -57,14 +57,22 @@ switch ($route) {
         $controller = new \App\Controllers\ArticleController();
         echo $controller->index();
         break;
-    case '/articles/store':
-        $controller = new \App\Controllers\ArticleController();
-        echo $controller->store();
-        break;
-    case '/articles/create':
+    case '/article/create':
         $controller = new \App\Controllers\ArticleController();
         $controller->create();
         break;
+    case "/article/edit?$id":
+        $controller = new \App\Controllers\ArticleController();
+        $controller->edit();
+        break; 
+    case "/article/update":
+        $controller = new \App\Controllers\ArticleController();
+        $controller->update();
+        break;
+    case "/article/delete":
+        $controller = new \App\Controllers\ArticleController();
+        $controller->delete();
+        break;    
     default:
         echo ("404 Not Found");
 }

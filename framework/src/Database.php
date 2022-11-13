@@ -63,7 +63,7 @@ class Database
     
     public function getComments($table, $id)
     {
-        $query = pg_query($this->connection, "SELECT * FROM $table WHERE comment2article = $id");
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE comment2article = $id ORDER BY last_update_date desc");
         if(!$query) {
             echo "<h3>Ой, что-то пошло не так!</h3>";
             throw new Exception('Нет такой сущности в БД');
@@ -94,21 +94,21 @@ class Database
     {   
         $columns = [];
         $values = [];
-        
+
         foreach($data as $key => $value){
             if($key == 'password') {
                 $columns[] = $key;
                 $values[] = "'". password_hash($value,  PASSWORD_DEFAULT) ."'";
                 break;
             }
-            if($key == 'article_file') {
-                foreach($values as $item) {
-                    dd($item);
-                    $columns[] = $key;
-                    $values[] = $item;
-                    break;
+            if($key == 'article_files') {
+                $files = null;
+                foreach ($data['article_files'] as $file) {
+                    $files .= $file . ',';
                 }
-                
+                $columns[] = $key;
+                $values[] = "'" . trim($files) . "'";
+                break;
             }
             $columns[] = $key;
             $values[] = "'".$value."'";
@@ -124,8 +124,13 @@ class Database
     {
         $values = '';
         foreach($data as $key => $value){
+            if ($key == 'article_files') {
+                $value = implode(',', $value);
+                $key = 'article_files';
+            }
             $values .= " $key = '$value',";
         }
+        
         $values = rtrim($values, ',');
         $query = pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
         return pg_fetch_assoc($query);
@@ -134,6 +139,12 @@ class Database
     public function deleteObject($table, $id)
     {
         $query = pg_query($this->connection, "DELETE FROM $table WHERE id = $id;");
+        return pg_fetch_assoc($query);
+    }
+
+    public function getImages($table, $id)
+    {
+        $query = pg_query($this->connection, "SELECT article_files FROM $table WHERE id = $id");
         return pg_fetch_assoc($query);
     }
 

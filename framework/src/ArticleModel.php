@@ -38,15 +38,17 @@ class ArticleModel
     
     public function updateArticle($id, $data, $images)
     {
-        foreach ($images as $image) {
-            array_push($data['article_files'], $image);
+        if (!empty($images)) {
+            foreach ($images as $image) {
+                array_push($data['article_files'], $image);
+            }
         }
         return $this->database->updateObject($this->table, $id, $data);
     }
 
     public function deleteArticle($id)
     {
-        $images = $this->getImages($id);
+        $images = $this->getImages($id, 'article_files');
         if (isset($images)) {
             $dir = substr(__DIR__, 0, -13) . 'storage\articles\\';
             $data_images = [];
@@ -66,9 +68,9 @@ class ArticleModel
         return $this->database->deleteObject($this->table, $id);
     }
 
-    public function getImages($id)
+    public function getImages($id, $from)
     {
-        return $this->database->getImages($this->table, $id);
+        return $this->database->getImages($this->table, $id, $from);
     }
 
 }

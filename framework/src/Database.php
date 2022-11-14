@@ -110,6 +110,15 @@ class Database
                 $values[] = "'" . trim($files) . "'";
                 break;
             }
+            if($key == 'comment_files') {
+                $files = null;
+                foreach ($data['comment_files'] as $file) {
+                    $files .= $file . ',';
+                }
+                $columns[] = $key;
+                $values[] = "'" . trim($files) . "'";
+                break;
+            }
             $columns[] = $key;
             $values[] = "'".$value."'";
         }
@@ -128,6 +137,10 @@ class Database
                 $value = implode(',', $value);
                 $key = 'article_files';
             }
+            if ($key == 'comment_files') {
+                $value = implode(',', $value);
+                $key = 'comment_files';
+            }
             $values .= " $key = '$value',";
         }
         
@@ -142,9 +155,9 @@ class Database
         return pg_fetch_assoc($query);
     }
 
-    public function getImages($table, $id)
+    public function getImages($table, $id, $from)
     {
-        $query = pg_query($this->connection, "SELECT article_files FROM $table WHERE id = $id");
+        $query = pg_query($this->connection, "SELECT $from FROM $table WHERE id = $id");
         return pg_fetch_assoc($query);
     }
 

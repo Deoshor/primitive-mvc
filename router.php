@@ -61,10 +61,6 @@ switch ($route) {
         $controller = new \App\Controllers\ArticleController();
         $controller->create();
         break;
-    case "/article/edit?$id":
-        $controller = new \App\Controllers\ArticleController();
-        $controller->edit();
-        break; 
     case "/article/update":
         $controller = new \App\Controllers\ArticleController();
         $controller->update();
@@ -73,6 +69,18 @@ switch ($route) {
         $controller = new \App\Controllers\ArticleController();
         $controller->delete();
         break;    
+    case '/comment/create':
+        $controller = new \App\Controllers\CommentController();
+        $controller->create();
+        break;
+    case '/comment/update':
+        $controller = new \App\Controllers\CommentController();
+        $controller->update();
+        break;
+    case '/comment/delete':
+        $controller = new \App\Controllers\CommentController();
+        $controller->delete();
+        break;
     default:
         echo ("404 Not Found");
 }

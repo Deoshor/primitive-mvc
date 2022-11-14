@@ -38,8 +38,8 @@ class TopicController
     public function update()
     {
         $topics = new Topic;
-        $id = $_POST['id'];
-        unset($_POST['id']);
+        $id = $_POST['topic_id'];
+        unset($_POST['topic_id']);
         $topic = $topics->updateTopic($id, $_POST);
         header('Location: /');
     }
@@ -47,7 +47,7 @@ class TopicController
     public function delete()
     {
         $topics = new Topic;
-        $topic = $topics->deleteTopic($_POST['id']);
+        $topic = $topics->deleteTopic($_POST['topic_id']);
         header('Location: /');
     }
 }

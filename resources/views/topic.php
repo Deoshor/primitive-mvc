@@ -33,11 +33,11 @@
                 <div class="container">
                     <form action="/article/create" method="POST" enctype="multipart/form-data">
                         <div class="mb-3 mt-3">
-                            <input type="text" name="article_name" class="form-control" id="article_name">
+                            <input type="text" name="article_name" class="form-control" id="article_name" required>
                             <div class="form-text">Введите заголовок предлагаемой статьи</div>
                         </div>
                         <div class="mb-3 mt-3">
-                            <input type="text" name="article_description" class="form-control" id="article_description">
+                            <textarea type="text" name="article_description" class="form-control" id="article_description" required maxlength="3000"></textarea>
                             <div class="form-text">Введите описание статьи</div>
                         </div>
                         <div class="mb-3 mt-3">

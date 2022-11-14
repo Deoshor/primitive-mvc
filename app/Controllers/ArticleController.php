@@ -32,39 +32,35 @@ class ArticleController
     public function create()
     {
         $imageService = new ImageService;
-        if ($imageService->validateSize($_FILES) && $imageService->validateType($_FILES)) {
-            $articles = new Article();
-            $data_article = $_POST;
-            $data_article['article2user'] = $_SESSION['id'];
+        $articles = new Article();
+        $data_article = $_POST;
+        $data_article['article2user'] = $_SESSION['id'];
+        if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
             $data_article['article_files'] = $imageService->uniqImageName($_FILES['article_files']['name']);
-            $article = $articles->createArticle($data_article);
-            $dir = substr(__DIR__, 0, -15) . 'storage\articles\\';
+        }
+        $article = $articles->createArticle($data_article);
+        $dir = substr(__DIR__, 0, -15) . 'storage\articles\\';
             
-
+        if (isset($data_article['article_files'])) {
             $data_file = array_combine($_FILES['article_files']['tmp_name'], $data_article['article_files']);
             foreach ($data_file as $key => $value) {
                 move_uploaded_file($key, $dir . $value);
             }
-            header("Location: " . $_SERVER['HTTP_REFERER']);
         }
+            
+        header("Location: " . $_SERVER['HTTP_REFERER']);
+        
     }
-
-    public function edit()
-    {
-        $articles = new Article;
-        $article = $articles->getArticleById($_REQUEST['id']);
-        require_once 'resources/views/editArticle.php';
-    }
-
+    
     public function update()
     {
         $imageService = new ImageService;
-        if ($imageService->validateSize($_FILES) && $imageService->validateType($_FILES)) {
+        if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
             $articles = new Article();
             $data_article = $_POST;
             $data_article['article2user'] = $_SESSION['id'];
             $data_article['article_files'] = $imageService->uniqImageName($_FILES['article_files']['name']);
-            $images = $articles->getImages($_POST['id']);
+            $images = $articles->getImages($_POST['id'], 'article_files');
             $article = $articles->updateArticle($data_article['id'], $data_article, $images);
             
             

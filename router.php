@@ -49,7 +49,7 @@ switch ($route) {
         $controller = new \App\Controllers\TopicController();
         $controller->update();
         break;
-    case "/topic/delete?$id":
+    case "/topic/delete":
         $controller = new \App\Controllers\TopicController();
         $controller->delete();
         break;            

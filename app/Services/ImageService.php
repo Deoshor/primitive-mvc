@@ -6,11 +6,6 @@ use App\Interfaces\Image;
 
 class ImageService implements Image
 {
-    public function saveImage($dir, $file)
-    {
-        move_uploaded_file($file, $dir . '\\' .$file);
-    }
-
     public function validateSize($from, $files)
     {
         $max_size_image = 3145728;

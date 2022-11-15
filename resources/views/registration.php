@@ -9,7 +9,7 @@
         <div style="padding-top: 20px;">
             <div class="row justify-content-center">
                 <div class="col-md-7 border">
-                    <h3>Регистрация</h3>
+                    <h3 class="mt-3">Регистрация</h3>
                     <form action="/registration/create" method="POST">
                         <div class="form-group">
                             <label for="name" class="col-form-label">Имя</label>
@@ -27,7 +27,7 @@
                             <label for="password" class="col-form-label">Пароль</label>
                             <input type="text" required name="password" class="form-control" id="password">
                         </div>
-                        <div class="form-group mt-2 mb-2">
+                        <div class="form-group mt-3 mb-2">
                             <button type="submit" class="btn-primary btn">Создать пользователя</button>
                         </div>
                     </form>

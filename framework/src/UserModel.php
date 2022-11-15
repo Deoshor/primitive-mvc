@@ -37,12 +37,12 @@ class UserModel
 
     public function createUser($data)
     {
-        return $this->database->create($this->table, $data);
+        return $this->database->createObject($this->table, $data);
     }
 
     public function updateUser($id, $data)
     {
-        return $this->database->update($this->table, $id, $data);
+        return $this->database->updateObject($this->table, $id, $data);
     }
 
     public function existsTable($table)
@@ -56,11 +56,6 @@ class UserModel
             throw new Exception('Таблицы ' . "$table" . 'не существует в базе данных');
         }
         $this->table = $table;
-    }
-
-    public function file($file, Image $image)
-    {
-        $image->saveImage($file);
     }
 
     public function login($data)
@@ -82,10 +77,12 @@ class UserModel
     public function validatePassword($data)
     {
         $currentPassword = $data['password'];
-        if (!preg_match_all("[0-9A-Za-z]{3}", $currentPassword)){
-            return 'Ошибка валидации';
+        
+        if (preg_match_all("\^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,100}$", $currentPassword)) {
+            $alert = 'Пароль должен состоять из минимум из 6 символов: только латинские буквы и цифры';
+            require_once 'resources/views/alert.php';
         } else {
-            return $currentPassword;
+            return true;
         }
     }
 

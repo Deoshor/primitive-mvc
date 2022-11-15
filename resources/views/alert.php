@@ -14,21 +14,22 @@
         </div>';
     ?>
 
-    <div class="container mb-3">
+<?php if (isset($_REQUEST['article_name'])) {
+    echo '<div class="container mb-3">
         <div style="padding-top: 15px;">
             <div class="col-md-12">
                 <div class="row justify-content-end">
                     <div class="col">
-                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#articleModal">
-                            <?php if (isset($_REQUEST['article_name'])) {
-                                    echo '<a href="/topic?id=' . $_REQUEST['topic_id'] . '">Вернуться</a>';
-                                }
-                            ?>
+                        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#articleModal">  
+                            <a href="/topic?id=' . $_REQUEST['topic_id'] . '">Вернуться</a>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>';
+}
+?>
+
 
     <?php require_once('layouts/endLayout.html'); ?>

@@ -14,7 +14,9 @@ class RegistrationController
     public function register()
     {
         $users = new User;
-        $user = $users->createUser($_POST);
-        header('location: /');
+        if ($users->validatePassword($_POST)) {
+            $user = $users->createUser($_POST);
+            header('location: /');
+        }
     }
 }

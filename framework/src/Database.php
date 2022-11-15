@@ -2,15 +2,24 @@
 
 namespace Framework\Src;
 
+include('config.php');
 use Exception;
 
 class Database
 {
     public $connection;
+    
 
     public function __construct()
     {
-        $this->connection = pg_connect("host='127.0.0.1' port=5432 dbname=postgres user=postgres password=root");
+        $dbhost = DBHOST;
+        $dbport = DBPORT;
+        $dbname = DBNAME;
+        $dbuser = DBUSER;
+        $dbpass = DBPWD;
+
+        $this->connection = pg_connect(
+            "host='$dbhost' port=$dbport dbname=$dbname user=$dbuser password=$dbpass");
         if($this->connection == false){
             throw new Exception('Нет подключения к базе данных');
         }

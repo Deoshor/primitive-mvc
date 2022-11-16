@@ -170,5 +170,17 @@ class Database
         return pg_fetch_assoc($query);
     }
 
+    public function createTable($sql)
+    {
+        $query = pg_query($this->connection, $sql);
+        return pg_fetch_assoc($query);
+    }
+
+    public function insertIntoTables($sql)
+    {
+        $query = pg_query($this->connection, $sql);
+        return pg_fetch_assoc($query);
+    }
+
 }
 ?>

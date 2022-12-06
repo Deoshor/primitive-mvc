@@ -72,5 +72,4 @@ class ArticleModel
     {
         return $this->database->getImages($this->table, $id, $from);
     }
-
 }

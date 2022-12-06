@@ -5,5 +5,3 @@ define('DBPORT','5432');
 define('DBNAME','postgres');
 define('DBUSER','postgres');
 define('DBPWD','root');
-
-?>

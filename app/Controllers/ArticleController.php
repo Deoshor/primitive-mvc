@@ -3,13 +3,15 @@
 namespace App\Controllers;
 
 use App\Models\Article;
+use App\Models\ArticleFile;
 use App\Models\Comment;
+use App\Models\CommentFile;
 use App\Models\User;
 use App\Services\ImageService;
 
 class ArticleController
 {
-    public function index()
+    public function index(): void
     {
         $articles = new Article();
         $article = $articles->getArticle($_SERVER['QUERY_STRING']);
@@ -17,19 +19,27 @@ class ArticleController
         $comments = new Comment();
         $comment = $comments->getComments($_SERVER['QUERY_STRING']);
 
-        $comments_data = [];
-        array_push($comments_data, $comment['last_update_date']);
+        $article_file = new ArticleFile();
+        $article_files = $article_file->getArticleFilesById($article['id']);
+
+        $comments_data['comment_data'] = $comment['last_update_date'];
         foreach ($comment as $item) {
             $user = new User();
             $user = $user->getUser($item['comment2user']);
             $item['author']  = $user['name'] . ' ' . $user['lastname'];
-            array_push($comments_data, $item);
+            $comments_data['comment_data'] = $item;
+
+            $comment_file = new CommentFile();
+            $comment_files = $comment_file->getCommentFilesById($item['id']);
+            foreach ($comment_files as $key => $value) {
+                $comments_data['comment_data']['comment_files'][$value['id']] = $value['comment_filename'];
+            }
         }
         unset($comments_data[0]);
         require_once 'resources/views/article.php';
     }
 
-    public function create()
+    public function create(): void
     {
         $imageService = new ImageService;
         $articles = new Article();
@@ -47,7 +57,6 @@ class ArticleController
                 move_uploaded_file($key, $dir . $value);
             }
         }
-            
         header("Location: " . $_SERVER['HTTP_REFERER']);
         
     }

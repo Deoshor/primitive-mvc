@@ -86,17 +86,14 @@
         <div class="card-body mb-3">
             <?php echo $article['article_description']; ?>
         </div>
-        
-                    <?php 
-                    if (isset($article['article_files'])) {
+                    <?php
+                    if (!empty($article_files)) {
                         echo '<div class="row">
                                 <div id="carouselArticleFade" class="col-md-8 mx-auto carousel carousel-dark slide carousel-fade mb-3 w-50" data-bs-ride="carousel">
                             <div class="carousel-inner">';
-                        $images = explode(",", $article['article_files']);
-                        array_pop($images);
-                        foreach ($images as $image) {
+                        foreach ($article_files as $file) {
                             echo '<div class="carousel-item active">
-                                    <img src="/storage/articles/' . $image . '" class="d-block w-100" alt="' . $image . '">
+                                    <img src="/storage/articles/' . $file['article_filename'] . '" class="d-block w-100" alt="' . $file['article_filename'] . '">
                                 </div>';
                         }
                         echo '</div>
@@ -156,9 +153,7 @@
                         echo '<div class="row">
                                 <div id="carouselCommentFade" class="carousel carousel-dark slide carousel-fade w-50" data-bs-ride="carousel">
                                     <div class="carousel-inner">';
-                                    $images = explode(",", $item['comment_files']);
-                                    array_pop($images);
-                                    foreach ($images as $image) {
+                                    foreach ($item['comment_files'] as $key => $image) {
                                         echo '<div class="carousel-item active">
                                                 <img src="/storage/comments/' . $image . '" class="d-block w-100" alt="' . $image . '">
                                             </div>';

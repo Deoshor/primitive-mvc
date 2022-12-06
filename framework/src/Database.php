@@ -170,6 +170,18 @@ class Database
         return pg_fetch_assoc($query);
     }
 
+    public function getArticleFilesById($table, $id)
+    {
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE file2article = $id");
+        return pg_fetch_all($query);
+    }
+
+    public function getCommentFilesById($table, $id)
+    {
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE file2comment = $id");
+        return pg_fetch_all($query);
+    }
+
     public function createTable($sql)
     {
         $query = pg_query($this->connection, $sql);
@@ -183,4 +195,3 @@ class Database
     }
 
 }
-?>

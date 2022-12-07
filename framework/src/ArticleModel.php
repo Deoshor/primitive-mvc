@@ -14,62 +14,40 @@ class ArticleModel
         $this->database = new Database;
     }
 
-    public function getArticles($id)
+    public function getArticles($id): array
     {
         $id = substr($id, 3);
         return $this->database->getArticles($this->table, $id);
     }
 
-    public function getArticle($id)
+    public function getArticle($id): array
     {   
         $id = substr($id, 3);
         return $this->database->getObjectById($this->table, $id);
     }
 
-    public function createArticle($data)
+    public function createArticle($data): bool|\PgSql\Result
     {
         return $this->database->createObject($this->table, $data);
     }
 
-    public function getArticleById($data)
+    public function getArticleById($data): array
     {
         return $this->database->getObjectById($this->table, $data);
     }
     
-    public function updateArticle($id, $data, $images)
+    public function updateArticle($id, $data): bool|\PgSql\Result
     {
-        if (!empty($images)) {
-            foreach ($images as $image) {
-                array_push($data['article_files'], $image);
-            }
-        }
         return $this->database->updateObject($this->table, $id, $data);
     }
 
-    public function deleteArticle($id)
+    public function deleteArticle($id): bool|\PgSql\Result
     {
-        $images = $this->getImages($id, 'article_files');
-        if (isset($images)) {
-            $dir = substr(__DIR__, 0, -13) . 'storage\articles\\';
-            $data_images = [];
-            foreach ($images as $image) {
-                $data_images = explode(',', $image);
-            }
-            foreach ($data_images as $item) {
-                if ($item != "") {
-                    try {
-                        unlink($dir . $item);
-                    } catch (Exception $e) {
-                        echo $e->getMessage(), "\n";
-                    }
-                } 
-            }
-        }
         return $this->database->deleteObject($this->table, $id);
     }
 
-    public function getImages($id, $from)
+    public function getLastArticle(): array
     {
-        return $this->database->getImages($this->table, $id, $from);
+        return $this->database->getLastObject($this->table);
     }
 }

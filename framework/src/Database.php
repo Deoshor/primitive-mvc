@@ -48,6 +48,12 @@ class Database
         }
     }
 
+    public function getLastObject($table)
+    {
+        $query = pg_query($this->connection, "SELECT id FROM $table order by id desc");
+        return pg_fetch_assoc($query);
+    }
+
     public function getPassword($table, $email) 
     {
         $query = pg_query($this->connection, "SELECT password FROM $table WHERE email = '$email'");
@@ -105,27 +111,9 @@ class Database
         $values = [];
 
         foreach($data as $key => $value){
-            if($key == 'password') {
+            if ($key == 'password') {
                 $columns[] = $key;
                 $values[] = "'". password_hash($value,  PASSWORD_DEFAULT) ."'";
-                break;
-            }
-            if($key == 'article_files') {
-                $files = null;
-                foreach ($data['article_files'] as $file) {
-                    $files .= $file . ',';
-                }
-                $columns[] = $key;
-                $values[] = "'" . trim($files) . "'";
-                break;
-            }
-            if($key == 'comment_files') {
-                $files = null;
-                foreach ($data['comment_files'] as $file) {
-                    $files .= $file . ',';
-                }
-                $columns[] = $key;
-                $values[] = "'" . trim($files) . "'";
                 break;
             }
             $columns[] = $key;
@@ -138,36 +126,26 @@ class Database
         return pg_query($this->connection, "INSERT INTO $table ($columns) VALUES ($values)");
     }
 
-    public function updateObject($table, $id, $data)
+    public function updateObject($table, $id, $data): bool|\PgSql\Result
     {
         $values = '';
         foreach($data as $key => $value){
-            if ($key == 'article_files') {
-                $value = implode(',', $value);
-                $key = 'article_files';
-            }
-            if ($key == 'comment_files') {
-                $value = implode(',', $value);
-                $key = 'comment_files';
-            }
             $values .= " $key = '$value',";
         }
         
         $values = rtrim($values, ',');
-        $query = pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
-        return pg_fetch_assoc($query);
+        return pg_query($this->connection, "UPDATE $table SET $values WHERE id = $id");
     }
 
-    public function deleteObject($table, $id)
+    public function deleteObject($table, $id): bool|\PgSql\Result
     {
-        $query = pg_query($this->connection, "DELETE FROM $table WHERE id = $id;");
-        return pg_fetch_assoc($query);
+        return pg_query($this->connection, "DELETE FROM $table WHERE id = $id;");
     }
 
-    public function getImages($table, $id, $from)
+    public function getFiles($table, $id, $from)
     {
-        $query = pg_query($this->connection, "SELECT $from FROM $table WHERE id = $id");
-        return pg_fetch_assoc($query);
+        $query = pg_query($this->connection, "SELECT * FROM $table WHERE $from = $id");
+        return pg_fetch_all($query);
     }
 
     public function getArticleFilesById($table, $id)

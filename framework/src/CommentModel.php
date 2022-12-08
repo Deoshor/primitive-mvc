@@ -14,56 +14,34 @@ class CommentModel
         $this->database = new Database();
     }
 
-    public function getComment($id)
+    public function getComment($id): array
     {
         return $this->database->getObjectById($this->table, $id);
     }
     
-    public function getComments($id)
+    public function getComments($id): array
     {
         $id = substr($id, 3);
         return $this->database->getComments($this->table, $id);
     }
 
-    public function createComment($data)
+    public function createComment($data): bool|\PgSql\Result
     {
         return $this->database->createObject($this->table, $data);
     }
 
-    public function updateComment($id, $data, $images)
+    public function updateComment($id, $data): bool|\PgSql\Result
     {
-        if (!empty($images)) {
-            foreach ($images as $image) {
-                array_push($data['comment_files'], $image);
-            }
-        }
         return $this->database->updateObject($this->table, $id, $data);
     }
 
-    public function deleteComment($id)
+    public function deleteComment($id): bool|\PgSql\Result
     {
-        $images = $this->getImages($id, 'comment_files');
-        if (isset($images)) {
-            $dir = substr(__DIR__, 0, -13) . 'storage\comments\\';
-            $data_images = [];
-            foreach ($images as $image) {
-                $data_images = explode(',', $image);
-            }
-            foreach ($data_images as $item) {
-                if ($item != "") {
-                    try {
-                        unlink($dir . $item);
-                    } catch (Exception $e) {
-                        echo $e->getMessage(), "\n";
-                    }
-                } 
-            }
-        }
         return $this->database->deleteObject($this->table, $id);
     }
 
-    public function getImages($id, $from)
+    public function getLastComment(): array
     {
-        return $this->database->getImages($this->table, $id, $from);
+        return $this->database->getLastObject($this->table);
     }
 }

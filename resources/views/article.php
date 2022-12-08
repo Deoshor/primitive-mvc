@@ -112,8 +112,8 @@
                 
 
 
-        <?php
-        foreach ($comments_data as $item) {
+        <?php //dd($comments_data);
+        foreach ($comments_data['comment_data'] as $item) {
             echo '<div class="container w-75 border border-light rounded bg-secondary bg-gradient mt-1" style="--bs-bg-opacity: .1">
                     <div class="row mt-1 mb-1">
                         <div class="col-2">
@@ -153,10 +153,11 @@
                         echo '<div class="row">
                                 <div id="carouselCommentFade" class="carousel carousel-dark slide carousel-fade w-50" data-bs-ride="carousel">
                                     <div class="carousel-inner">';
-                                    foreach ($item['comment_files'] as $key => $image) {
+                                    foreach ($comments_data['comment_files'] as $key => $image) {
                                         echo '<div class="carousel-item active">
                                                 <img src="/storage/comments/' . $image . '" class="d-block w-100" alt="' . $image . '">
                                             </div>';
+
                                     }
                             echo '</div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselCommentFade" data-bs-slide="prev">
@@ -183,7 +184,7 @@
                             <div class="container">
                                 <form action="/comment/delete" method="POST">
                                     <input type="hidden" name="article_id" class="form-control" id="article_id" value="' . $article['id'] . '">
-                                    <input type="hidden" name="id" class="form-control" id="id" value="' . $item['id'] . '">
+                                    <input type="hidden" name="comment_id" class="form-control" id="comment_id" value="' . $item['id'] . '">
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                                         <button type="submit" class="btn btn-danger">Удалить</button>

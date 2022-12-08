@@ -22,20 +22,23 @@ class ArticleController
         $article_file = new ArticleFile();
         $article_files = $article_file->getArticleFilesById($article['id']);
 
-        $comments_data['comment_data'] = $comment['last_update_date'];
+        $comments_data = [];
         foreach ($comment as $item) {
             $user = new User();
             $user = $user->getUser($item['comment2user']);
             $item['author']  = $user['name'] . ' ' . $user['lastname'];
-            $comments_data['comment_data'] = $item;
+            $comments_data['comment_data'][] = $item;
 
+            //dd($item['id']);
             $comment_file = new CommentFile();
             $comment_files = $comment_file->getCommentFilesById($item['id']);
-            foreach ($comment_files as $key => $value) {
-                $comments_data['comment_data']['comment_files'][$value['id']] = $value['comment_filename'];
+            $item['comment_files'] = [];
+            //dd($comment_files);
+            foreach ($comment_files as $file) {
+                $item['comment_files'][] = $file['comment_filename'];
             }
         }
-        unset($comments_data[0]);
+
         require_once 'resources/views/article.php';
     }
 
@@ -46,29 +49,26 @@ class ArticleController
         $data_article = $_POST;
         $data_article['article2user'] = $_SESSION['id'];
 
-        if (!isset($_FILES)){
+        if (!$_FILES['comment_files']['tmp_name'][0] == ""){
             if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
                 if($articles->createArticle($data_article)) {
                     $article_id = $articles->getLastArticle();
-                    if (isset($_FILES)) {
-                        $dir = substr(__DIR__, 0, -15) . 'storage\articles\\';
-                        foreach ($imageService->uniqImageName($_FILES['article_files']['name']) as $file) {
-                            $data_article['article_files'][] = $file;
-                        }
-
-                        $data_file = array_combine($_FILES['article_files']['tmp_name'], $data_article['article_files']);
-                        foreach ($data_file as $key => $value) {
-                            move_uploaded_file($key, $dir . $value);
-                        }
-
-                        foreach ($data_article['article_files'] as $file) {
-                            $article_file = new ArticleFile();
-                            $article_file->createArticleFile($article_id['id'], $file);
-                        }
+                    $dir = substr(__DIR__, 0, -15) . 'storage\articles\\';
+                    foreach ($imageService->uniqImageName($_FILES['article_files']['name']) as $file) {
+                        $data_article['article_files'][] = $file;
                     }
 
-                }
+                    $data_file = array_combine($_FILES['article_files']['tmp_name'], $data_article['article_files']);
+                    foreach ($data_file as $key => $value) {
+                        move_uploaded_file($key, $dir . $value);
+                    }
 
+                    foreach ($data_article['article_files'] as $file) {
+                        $article_file = new ArticleFile();
+                        $article_file->createArticleFile($article_id['id'], $file);
+                    }
+                }
+                header("Location: " . $_SERVER['HTTP_REFERER']);
             }
         } else {
             $articles->createArticle($data_article);
@@ -82,7 +82,7 @@ class ArticleController
         $articles = new Article();
         $data_article = $_POST;
         $data_article['article2user'] = $_SESSION['id'];
-        if (!isset($_FILES)) {
+        if (!$_FILES['comment_files']['tmp_name'][0] == "") {
             if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
                 $articles->updateArticle($data_article['id'], $data_article);
 

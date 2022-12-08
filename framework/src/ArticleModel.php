@@ -20,7 +20,7 @@ class ArticleModel
         return $this->database->getArticles($this->table, $id);
     }
 
-    public function getArticle($id): array
+    public function getArticle($id): bool|array
     {   
         $id = substr($id, 3);
         return $this->database->getObjectById($this->table, $id);

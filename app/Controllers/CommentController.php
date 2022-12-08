@@ -82,6 +82,6 @@ class CommentController
 
         $comments = new Comment();
         $comments->deleteComment($_POST['comment_id']);
-        header('Location: /article?id=' . $_POST['comment_id']);
+        header('Location: /article?id=' . $_POST['article_id']);
     }
 }

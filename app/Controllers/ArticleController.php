@@ -27,16 +27,14 @@ class ArticleController
             $user = new User();
             $user = $user->getUser($item['comment2user']);
             $item['author']  = $user['name'] . ' ' . $user['lastname'];
-            $comments_data['comment_data'][] = $item;
 
-            //dd($item['id']);
             $comment_file = new CommentFile();
             $comment_files = $comment_file->getCommentFilesById($item['id']);
             $item['comment_files'] = [];
-            //dd($comment_files);
             foreach ($comment_files as $file) {
                 $item['comment_files'][] = $file['comment_filename'];
             }
+            $comments_data[] = $item;
         }
 
         require_once 'resources/views/article.php';

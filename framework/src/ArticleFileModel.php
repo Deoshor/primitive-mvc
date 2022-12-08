@@ -14,7 +14,7 @@ class ArticleFileModel
         $this->database = new Database;
     }
 
-    public function getArticleFilesById($id)
+    public function getArticleFilesById($id): array
     {
         return $this->database->getArticleFilesById($this->table, $id);
     }

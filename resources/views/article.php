@@ -112,8 +112,8 @@
                 
 
 
-        <?php //dd($comments_data);
-        foreach ($comments_data['comment_data'] as $item) {
+        <?php
+        foreach ($comments_data as $item) {
             echo '<div class="container w-75 border border-light rounded bg-secondary bg-gradient mt-1" style="--bs-bg-opacity: .1">
                     <div class="row mt-1 mb-1">
                         <div class="col-2">
@@ -153,13 +153,13 @@
                         echo '<div class="row">
                                 <div id="carouselCommentFade" class="carousel carousel-dark slide carousel-fade w-50" data-bs-ride="carousel">
                                     <div class="carousel-inner">';
-                                    foreach ($comments_data['comment_files'] as $key => $image) {
-                                        echo '<div class="carousel-item active">
+                        foreach ($item['comment_files'] as $image) {
+                            echo '<div class="carousel-item active">
                                                 <img src="/storage/comments/' . $image . '" class="d-block w-100" alt="' . $image . '">
                                             </div>';
 
-                                    }
-                            echo '</div>
+                        }
+                        echo '</div>
                                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselCommentFade" data-bs-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="visually-hidden">Предыдущий</span>

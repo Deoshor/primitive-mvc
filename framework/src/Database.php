@@ -148,7 +148,7 @@ class Database
         return pg_fetch_all($query);
     }
 
-    public function getArticleFilesById($table, $id)
+    public function getArticleFilesById($table, $id): array
     {
         $query = pg_query($this->connection, "SELECT * FROM $table WHERE file2article = $id");
         return pg_fetch_all($query);

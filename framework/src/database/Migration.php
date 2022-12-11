@@ -1,16 +1,19 @@
 <?php
 
-namespace Framework\Src;
+namespace framework\src;
 
-include('Database.php');
+use Framework\Src\Database\Query;
+
+require_once ('Database.php');
+require_once ('Query.php');
 
 class Migration
 {
-    public $database;
+    public Query $query;
 
-    public function __construct()
+    public function __construct(Query $query)
     {
-        $this->database = new Database;
+        $this->query = $query;
     }
 
     public function createTable()
@@ -63,7 +66,7 @@ class Migration
             comment_filename varchar(255),
             file2comment INT REFERENCES forum.comments (id)   
         );";
-        return $this->database->createTable($sql);
+        return $this->query->createTable($sql);
     }
 
     public function insertIntoTables()
@@ -111,10 +114,10 @@ class Migration
             (null , 3);
             COMMIT;
             ";
-        return $this->database->insertIntoTables($sql);
+        return $this->query->insertIntoTables($sql);
     }
 }
 
-$migration = new Migration;
+$migration = new Migration(new Query());
 $migration->createTable();
 $migration->insertIntoTables();

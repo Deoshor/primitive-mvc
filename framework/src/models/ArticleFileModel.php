@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Src;
+namespace framework\src\models;
 
-use Framework\Src\Database;
 use Exception;
+use Framework\Src\Database\Query;
 
 class ArticleFileModel
 {
@@ -11,7 +11,7 @@ class ArticleFileModel
 
     public function __construct()
     {
-        $this->database = new Database;
+        $this->database = new Query;
     }
 
     public function getArticleFilesById($id): array

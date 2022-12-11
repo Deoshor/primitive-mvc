@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Framework\Src\CommentFileModel;
+use framework\src\models\CommentFileModel;
 
 class CommentFile extends CommentFileModel
 {

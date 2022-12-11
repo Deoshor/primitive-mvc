@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Framework\Src\UserModel;
+use framework\src\models\UserModel;
 
 class User extends UserModel
 {

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Framework\Src\TopicModel;
+use framework\src\models\TopicModel;
 
 class Topic extends TopicModel
 {

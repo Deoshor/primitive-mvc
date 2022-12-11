@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Framework\Src\ArticleFileModel;
+use framework\src\models\ArticleFileModel;
 
 class ArticleFile extends ArticleFileModel
 {

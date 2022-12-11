@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Framework\Src\CommentModel;
+use framework\src\models\CommentModel;
 
 class Comment extends CommentModel
 {

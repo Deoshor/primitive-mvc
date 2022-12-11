@@ -1,28 +1,16 @@
 <?php
 
-namespace Framework\Src;
+namespace Framework\Src\Database;
 
-include('config.php');
 use Exception;
 
-class Database
+class Query
 {
     public $connection;
-    
 
     public function __construct()
     {
-        $dbhost = DBHOST;
-        $dbport = DBPORT;
-        $dbname = DBNAME;
-        $dbuser = DBUSER;
-        $dbpass = DBPWD;
-
-        $this->connection = pg_connect(
-            "host='$dbhost' port=$dbport dbname=$dbname user=$dbuser password=$dbpass");
-        if($this->connection == false){
-            throw new Exception('Нет подключения к базе данных');
-        }
+        $this->connection = Database::getInstance()->connect();
         session_start();
     }
 

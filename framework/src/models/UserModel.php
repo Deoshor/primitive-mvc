@@ -1,16 +1,16 @@
 <?php 
 
-namespace Framework\Src;
+namespace framework\src\models;
 
-use App\Interfaces\Image;
 use Exception;
+use Framework\Src\Database\Query;
 
 class UserModel
 {
     public $database;
     public function __construct()
     {
-        $this->database = new Database();
+        $this->database = new Query();
     }
 
     public function getAllDataFromTable()

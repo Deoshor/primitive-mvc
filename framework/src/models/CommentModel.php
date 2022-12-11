@@ -1,9 +1,8 @@
 <?php
 
-namespace Framework\Src;
+namespace framework\src\models;
 
-use Framework\Src\Database;
-use Exception;
+use Framework\Src\Database\Query;
 
 class CommentModel
 {
@@ -11,7 +10,7 @@ class CommentModel
 
     public function __construct()
     {
-        $this->database = new Database();
+        $this->database = new Query();
     }
 
     public function getComment($id): array

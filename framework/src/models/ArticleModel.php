@@ -1,9 +1,8 @@
 <?php
 
-namespace Framework\Src;
+namespace framework\src\models;
 
-use Framework\Src\Database;
-use Exception;
+use Framework\Src\Database\Query;
 
 class ArticleModel
 {
@@ -11,7 +10,7 @@ class ArticleModel
 
     public function __construct()
     {
-        $this->database = new Database;
+        $this->database = new Query;
     }
 
     public function getArticles($id): array

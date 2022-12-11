@@ -1,15 +1,15 @@
 <?php
 
-namespace Framework\Src;
+namespace framework\src\models;
 
-use Framework\Src\Database;
+use Framework\Src\Database\Query;
 
 class TopicModel
 {
     public $database;
     public function __construct()
     {
-        $this->database = new Database;
+        $this->database = new Query;
     }
 
     public function getTopic($id)

@@ -22,7 +22,7 @@ class ArticleModel
     public function getArticle($id): bool|array
     {   
         $id = substr($id, 3);
-        return $this->database->getObjectById($this->table, $id);
+        return $this->database->get($this->table, $id);
     }
 
     public function createArticle($data): bool|\PgSql\Result
@@ -32,7 +32,7 @@ class ArticleModel
 
     public function getArticleById($data): array
     {
-        return $this->database->getObjectById($this->table, $data);
+        return $this->database->get($this->table, $data);
     }
     
     public function updateArticle($id, $data): bool|\PgSql\Result

@@ -15,7 +15,7 @@ class TopicModel
     public function getTopic($id)
     {
         $id = substr($id, 3);
-        return $this->database->getObjectById($this->table, $id);
+        return $this->database->get($this->table, $id);
     }
 
     public function getTopics()
@@ -30,7 +30,7 @@ class TopicModel
 
     public function getTopicById($data)
     {
-        return $this->database->getObjectById($this->table, $data);
+        return $this->database->get($this->table, $data);
     }
     
     public function updateTopic($id, $data)

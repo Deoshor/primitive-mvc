@@ -15,7 +15,7 @@ class CommentModel
 
     public function getComment($id): array
     {
-        return $this->database->getObjectById($this->table, $id);
+        return $this->database->get($this->table, $id);
     }
     
     public function getComments($id): array

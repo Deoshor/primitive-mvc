@@ -7,6 +7,7 @@ use Exception;
 class Query
 {
     public $connection;
+    public $where;
 
     public function __construct()
     {
@@ -25,9 +26,9 @@ class Query
         }
     }
 
-    public function getObjectById($table, $id): bool|array
+    public function get($table): bool|array
     {   
-        $query = pg_query($this->connection, "SELECT * FROM $table WHERE id = $id");
+        $query = pg_query($this->connection, "SELECT * FROM $table $this->where");
         if(!$query) {
             echo "<h3>Ой, что-то пошло не так!</h3>";
             throw new Exception('Нет такой сущности в БД');
@@ -158,6 +159,12 @@ class Query
     {
         $query = pg_query($this->connection, $sql);
         return pg_fetch_assoc($query);
+    }
+
+    public function where($key, $value): Query
+    {
+        $this->where = "WHERE $key = '$value'";
+        return $this;
     }
 
 }

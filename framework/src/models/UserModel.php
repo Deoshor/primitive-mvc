@@ -8,6 +8,7 @@ use Framework\Src\Database\Query;
 class UserModel
 {
     public $database;
+    public $where;
     public function __construct()
     {
         $this->database = new Query();
@@ -20,7 +21,7 @@ class UserModel
 
     public function getUser($id)
     {  
-        return $this->database->getObjectById($this->table, $id);
+        return $this->database->get($this->table, $id);
     }
 
     public function getUserData($data)
@@ -43,19 +44,6 @@ class UserModel
     public function updateUser($id, $data)
     {
         return $this->database->updateObject($this->table, $id, $data);
-    }
-
-    public function existsTable($table)
-    {
-        return pg_query($this->database->connection, "SELECT * FROM  $table");
-    }
-
-    public function setTable($table)
-    {
-        if (!$this->existsTable($table)){
-            throw new Exception('Таблицы ' . "$table" . 'не существует в базе данных');
-        }
-        $this->table = $table;
     }
 
     public function login($data)
@@ -98,5 +86,15 @@ class UserModel
         }
     }
 
+    public function get()
+    {
+        return $this->database->get($this->table);
+    }
+
+    public function where($key, $value)
+    {
+        $this->database = $this->database->get($this->table, $key, $value);
+        return $this;
+    }
+
 }
-?>

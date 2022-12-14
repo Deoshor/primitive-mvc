@@ -11,7 +11,7 @@
                 <div class="row justify-content-end">
                     <div class="col">
                         <?php
-                        if (isset($_SESSION['email'])) {
+                        if (isset($_SESSION['user'])) {
                             echo    '<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#articleModal">
                                         Создать статью
                                     </button>';

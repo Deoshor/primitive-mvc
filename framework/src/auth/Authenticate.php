@@ -21,13 +21,9 @@ class Authenticate
         }
         if(password_verify($password, $user['password'])) {
             session_start();
-            $_SESSION['userData'] = $user['name'] . ' ' . $user['lastname'];
-            $_SESSION['id'] = $user['id'];
-            header('location: /');
+            $_SESSION['user'] = $user;
             return true;
-        } else {
-            $alert = 'Авторизация не прошла. Попробуйте снова';
-            require_once('resources/views/login.php');
         }
+        return false;
     }
 }

@@ -8,7 +8,6 @@ use Framework\Src\Database\Query;
 class UserModel
 {
     public $database;
-    public $where;
     public function __construct()
     {
         $this->database = new Query();
@@ -22,12 +21,6 @@ class UserModel
     public function getUser($id)
     {  
         return $this->database->get($this->table, $id);
-    }
-
-    public function getUserData($data)
-    {  
-        $email = $data['email'];
-        return $this->database->getUserDataFromEmail($this->table, $email);
     }
 
     public function getUserId($data)
@@ -46,22 +39,6 @@ class UserModel
         return $this->database->updateObject($this->table, $id, $data);
     }
 
-    public function login($data)
-    {
-        if ($this->isExistsUser($data)) {
-            $email = $data['email'];
-            $currentPassword = $data['password'];
-            $savedPassword = $this->getPassword($email);
-            return $this->comparePassword($currentPassword, $savedPassword);
-        }
-    }
-
-    public function isExistsUser($data)
-    {
-        $email = $data['email'];
-        return $this->database->isExistsUser($this->table, $email);
-    }
-
     public function validatePassword($data)
     {
         $currentPassword = $data['password'];
@@ -74,18 +51,6 @@ class UserModel
         }
     }
 
-    private function getPassword($email) 
-    {
-        return $this->database->getPassword($this->table, $email);
-    }
-
-    private function comparePassword($currentPassword, $savedPassword)
-    {   
-        if(password_verify($currentPassword, $savedPassword['password'])) {
-            return true;
-        }
-    }
-
     public function get()
     {
         return $this->database->get($this->table);
@@ -93,7 +58,7 @@ class UserModel
 
     public function where($key, $value)
     {
-        $this->database = $this->database->get($this->table, $key, $value);
+        $this->database = $this->database->where($key, $value);
         return $this;
     }
 

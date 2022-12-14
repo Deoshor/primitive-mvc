@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use Framework\Src\Auth\Auth;
 
 class AuthorizationController
 {
@@ -13,12 +14,10 @@ class AuthorizationController
 
     public function login()
     {
-        $users = new User();
-        if($users->login($_POST)){
-            $_SESSION['email'] = $_POST['email'];
-            $user_data = $users->getUserData($_POST);
-            $_SESSION['userData'] = $user_data['name'] . ' ' . $user_data['lastname'];
-            $_SESSION['id'] = $user_data['id'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        if (Auth::login($email, $password)) {
             header('location: /');
         } else {
             $alert = 'Авторизация не прошла. Попробуйте снова';

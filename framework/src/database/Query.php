@@ -12,7 +12,6 @@ class Query
     public function __construct()
     {
         $this->connection = Database::getInstance()->connect();
-        session_start();
     }
 
     public function getAllDataFromTable($table)

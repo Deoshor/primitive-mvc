@@ -13,26 +13,19 @@ class ArticleModel
         $this->database = new Query;
     }
 
-    public function getArticles($id): array
+    public function getArticles(): array
     {
-        $id = substr($id, 3);
-        return $this->database->getArticles($this->table, $id);
+        return $this->database->getAll($this->table);
     }
 
-    public function getArticle($id): bool|array
-    {   
-        $id = substr($id, 3);
-        return $this->database->get($this->table, $id);
+    public function getArticle(): bool|array
+    {
+        return $this->database->get($this->table);
     }
 
     public function createArticle($data): bool|\PgSql\Result
     {
         return $this->database->createObject($this->table, $data);
-    }
-
-    public function getArticleById($data): array
-    {
-        return $this->database->get($this->table, $data);
     }
     
     public function updateArticle($id, $data): bool|\PgSql\Result
@@ -48,5 +41,11 @@ class ArticleModel
     public function getLastArticle(): array
     {
         return $this->database->getLastObject($this->table);
+    }
+
+    public function where($key, $value)
+    {
+        $this->database = $this->database->where($key, $value);
+        return $this;
     }
 }

@@ -18,15 +18,9 @@ class UserModel
         return $this->database->getAllDataFromTable($this->table);
     }
 
-    public function getUser($id)
+    public function getUser()
     {  
-        return $this->database->get($this->table, $id);
-    }
-
-    public function getUserId($data)
-    {  
-        $email = $data['email'];
-        return $this->database->getUserIdFromEmail($this->table, $email);
+        return $this->database->get($this->table);
     }
 
     public function createUser($data)
@@ -61,5 +55,4 @@ class UserModel
         $this->database = $this->database->where($key, $value);
         return $this;
     }
-
 }

@@ -12,16 +12,10 @@ class CommentModel
     {
         $this->database = new Query();
     }
-
-    public function getComment($id): array
-    {
-        return $this->database->get($this->table, $id);
-    }
     
-    public function getComments($id): array
+    public function getComments(): array
     {
-        $id = substr($id, 3);
-        return $this->database->getComments($this->table, $id);
+        return $this->database->getAll($this->table);
     }
 
     public function createComment($data): bool|\PgSql\Result
@@ -42,5 +36,11 @@ class CommentModel
     public function getLastComment(): array
     {
         return $this->database->getLastObject($this->table);
+    }
+
+    public function where($key, $value)
+    {
+        $this->database = $this->database->where($key, $value);
+        return $this;
     }
 }

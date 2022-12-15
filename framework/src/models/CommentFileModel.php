@@ -14,9 +14,9 @@ class CommentFileModel
         $this->database = new Query();
     }
 
-    public function getCommentFilesById($id)
+    public function getCommentFilesById()
     {
-        return $this->database->getCommentFilesById($this->table, $id);
+        return $this->database->getAll($this->table);
     }
 
     public function createCommentFile($comment_id, $data): bool|\PgSql\Result
@@ -28,7 +28,7 @@ class CommentFileModel
 
     public function deleteCommentFiles($comment_id): void
     {
-        $images = $this->getFiles($comment_id, 'file2comment');
+        $images = $this->where('file2comment', $comment_id)->getFiles();
         $dir = substr(__DIR__, 0, -13) . 'storage\comment\\';
         foreach ($images as $item) {
             //Удаляем файл из хранилища
@@ -44,8 +44,14 @@ class CommentFileModel
         }
     }
 
-    public function getFiles($id, $from): array
+    public function getFiles(): array
     {
-        return $this->database->getFiles($this->table, $id, $from);
+        return $this->database->getAll($this->table);
+    }
+
+    public function where($key, $value)
+    {
+        $this->database = $this->database->where($key, $value);
+        return $this;
     }
 }

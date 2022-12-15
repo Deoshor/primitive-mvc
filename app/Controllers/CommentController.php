@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Comment;
 use App\Models\CommentFile;
 use App\Services\ImageService;
+use Framework\Src\Auth\Auth;
 
 
 class CommentController
@@ -14,7 +15,8 @@ class CommentController
         $imageService = new ImageService;
         $comments = new Comment();
         $data_comment = $_POST;
-        $data_comment['comment2user'] = $_SESSION['id'];
+        $user = Auth::user();
+        $data_comment['comment2user'] = $user['id'];
         $data_comment['last_update_date'] = date("Y-m-d H:i:s");
 
         if (!$_FILES['comment_files']['tmp_name'][0] == ""){
@@ -49,7 +51,8 @@ class CommentController
         $imageService = new ImageService;
         $comments = new Comment();
         $data_comment = $_POST;
-        $data_comment['comment2user'] = $_SESSION['id'];
+        $user = Auth::user();
+        $data_comment['comment2user'] = $user['id'];
 
         if (!$_FILES['comment_files']['tmp_name'][0] == "") {
             if ($imageService->validateSize('comment_files', $_FILES) && $imageService->validateType('comment_files', $_FILES)) {

@@ -10,7 +10,7 @@
             <div class="col-md-12">
                 <div class="row justify-content-end">
                     <?php
-                    if (isset($_SESSION['user']) && $_SESSION['id'] == $article['article2user']) {
+                    if (isset($_SESSION['user']) == $article['article2user']) {
                         echo    '<div class="col-2">
                             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#articleEditModal">Редактировать тему</button>
                         </div>

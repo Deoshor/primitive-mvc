@@ -4,26 +4,26 @@ namespace App\Controllers;
 
 use App\Models\Topic;
 use App\Models\Article;
-use App\Models\User;
+use Framework\Src\Auth\Auth;
 
 class TopicController
 {
     public function index()
     {
         $topics = new Topic;
-        $topic = $topics->getTopic($_SERVER['QUERY_STRING']);
+        $topic_id = substr($_SERVER['QUERY_STRING'], 3);
+        $topic = $topics->where('id', $topic_id)->getTopic();
         $articles = new Article;
-        $article = $articles->getArticles($_SERVER['QUERY_STRING']);
+        $article = $articles->where('article2topic', $topic_id)->getArticles();
         require_once 'resources/views/topic.php';
     }
 
     public function create()
     {
         $topics = new Topic();
-        $user = new User();
-        $id = $user->getUserId($_SESSION);
+        $user = Auth::user();
         $data['topic_name'] = $_POST['topic_name'];
-        $data['topic2user'] = $id['id'];
+        $data['topic2user'] = $user['id'];
         $topic = $topics->createTopic($data);
         header('Location: /');
     }

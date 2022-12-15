@@ -14,9 +14,9 @@ class ArticleFileModel
         $this->database = new Query;
     }
 
-    public function getArticleFilesById($id): array
+    public function getArticleFilesById(): array
     {
-        return $this->database->getArticleFilesById($this->table, $id);
+        return $this->database->getAll($this->table);
     }
 
     public function createArticleFile($article_id, $data): bool|\PgSql\Result
@@ -28,11 +28,11 @@ class ArticleFileModel
 
     public function deleteArticleFiles($article_id): void
     {
-        $images = $this->getFiles($article_id, 'file2article');
-        $dir = substr(__DIR__, 0, -13) . 'storage\articles\\';
+        $images = $this->where('file2article', $article_id)->getFiles();
+        $dir = substr(__DIR__, 0, -20) . 'storage\articles\\';
         foreach ($images as $item) {
             //Удаляем файл из хранилища
-            if ($item != "") {
+            if ($item) {
                 try {
                     unlink($dir . $item['article_filename']);
                 } catch (Exception $e) {
@@ -44,8 +44,14 @@ class ArticleFileModel
         }
     }
 
-    public function getFiles($id, $from): array
+    public function getFiles(): array
     {
-        return $this->database->getFiles($this->table, $id, $from);
+        return $this->database->getAll($this->table);
+    }
+
+    public function where($key, $value)
+    {
+        $this->database = $this->database->where($key, $value);
+        return $this;
     }
 }

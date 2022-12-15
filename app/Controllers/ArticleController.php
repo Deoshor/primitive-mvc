@@ -8,28 +8,30 @@ use App\Models\Comment;
 use App\Models\CommentFile;
 use App\Models\User;
 use App\Services\ImageService;
+use Framework\Src\Auth\Auth;
 
 class ArticleController
 {
     public function index(): void
     {
         $articles = new Article();
-        $article = $articles->getArticle($_SERVER['QUERY_STRING']);
+        $article_id = substr($_SERVER['QUERY_STRING'], 3);
+        $article = $articles->where('id', $article_id)->getArticle();
 
         $comments = new Comment();
-        $comment = $comments->getComments($_SERVER['QUERY_STRING']);
+        $comment = $comments->where('comment2article', $article_id)->getComments();
 
         $article_file = new ArticleFile();
-        $article_files = $article_file->getArticleFilesById($article['id']);
+        $article_files = $article_file->where('file2article', $article['id'])->getArticleFilesById();
 
         $comments_data = [];
         foreach ($comment as $item) {
             $user = new User();
-            $user = $user->getUser($item['comment2user']);
+            $user = $user->where('id', $item['comment2user'])->getUser();
             $item['author']  = $user['name'] . ' ' . $user['lastname'];
 
             $comment_file = new CommentFile();
-            $comment_files = $comment_file->getCommentFilesById($item['id']);
+            $comment_files = $comment_file->where('file2comment', $item['id'])->getCommentFilesById();
             $item['comment_files'] = [];
             foreach ($comment_files as $file) {
                 $item['comment_files'][] = $file['comment_filename'];
@@ -45,9 +47,10 @@ class ArticleController
         $imageService = new ImageService;
         $articles = new Article();
         $data_article = $_POST;
-        $data_article['article2user'] = $_SESSION['id'];
+        $user = Auth::user();
+        $data_article['article2user'] = $user['id'];
 
-        if (!$_FILES['comment_files']['tmp_name'][0] == ""){
+        if (!$_FILES['article_files']['tmp_name'][0] == ""){
             if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
                 if($articles->createArticle($data_article)) {
                     $article_id = $articles->getLastArticle();
@@ -79,8 +82,9 @@ class ArticleController
         $imageService = new ImageService;
         $articles = new Article();
         $data_article = $_POST;
-        $data_article['article2user'] = $_SESSION['id'];
-        if (!$_FILES['comment_files']['tmp_name'][0] == "") {
+        $user = Auth::user();
+        $data_article['article2user'] = $user['id'];
+        if (!$_FILES['article_files']['tmp_name'][0] == "") {
             if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
                 $articles->updateArticle($data_article['id'], $data_article);
 

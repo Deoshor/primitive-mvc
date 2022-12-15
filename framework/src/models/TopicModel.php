@@ -12,10 +12,9 @@ class TopicModel
         $this->database = new Query;
     }
 
-    public function getTopic($id)
+    public function getTopic()
     {
-        $id = substr($id, 3);
-        return $this->database->get($this->table, $id);
+        return $this->database->get($this->table);
     }
 
     public function getTopics()
@@ -41,5 +40,11 @@ class TopicModel
     public function deleteTopic($id)
     {
         return $this->database->deleteObject($this->table, $id);
+    }
+
+    public function where($key, $value)
+    {
+        $this->database = $this->database->where($key, $value);
+        return $this;
     }
 }

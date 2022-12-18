@@ -8,46 +8,40 @@ use Framework\Src\Auth\Auth;
 
 class TopicController
 {
-    public function index()
+    public function index(Topic $topic, Article $article): void
     {
-        $topics = new Topic;
         $topic_id = substr($_SERVER['QUERY_STRING'], 3);
-        $topic = $topics->where('id', $topic_id)->getTopic();
-        $articles = new Article;
-        $article = $articles->where('article2topic', $topic_id)->getArticles();
+        $topic = $topic->where('id', $topic_id)->getTopic();
+        $article = $article->where('article2topic', $topic_id)->getArticles();
         require_once 'resources/views/topic.php';
     }
 
-    public function create()
+    public function create(Topic $topic): void
     {
-        $topics = new Topic();
         $user = Auth::user();
         $data['topic_name'] = $_POST['topic_name'];
         $data['topic2user'] = $user['id'];
-        $topic = $topics->createTopic($data);
+        $topic = $topic->createTopic($data);
         header('Location: /');
     }
 
-    public function edit()
+    public function edit(Topic $topic)
     {
-        $topics = new Topic;
-        $topic = $topics->getTopicById($_REQUEST['id']);
+        $topic = $topic->getTopicById($_REQUEST['id']);
         require_once 'resources/views/editTopic.php';
     }
 
-    public function update()
+    public function update(Topic $topic)
     {
-        $topics = new Topic;
         $id = $_POST['topic_id'];
         unset($_POST['topic_id']);
-        $topic = $topics->updateTopic($id, $_POST);
+        $topic = $topic->updateTopic($id, $_POST);
         header('Location: /');
     }
 
-    public function delete()
+    public function delete(Topic $topic)
     {
-        $topics = new Topic;
-        $topic = $topics->deleteTopic($_POST['topic_id']);
+        $topic = $topic->deleteTopic($_POST['topic_id']);
         header('Location: /');
     }
 }

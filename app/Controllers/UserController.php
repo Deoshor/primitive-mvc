@@ -6,22 +6,15 @@ use App\Models\User;
 
 class UserController
 {
-    public function index()
+    public function index(User $user): void
     {
-        $users = new User;
-        $users = $users->getAllDataFromTable();
+        $users = $user->getAllDataFromTable();
         require_once 'resources/views/index.html';
     }
 
-    public function store()
+    public function store(User $user): void
     {
-        $users = new User;
-        $user = $users->createUser($_POST);
-        $dir = 'C:\Users\user\Documents\php\oop\storage\\' . basename($_FILES['file']['name']);
-        move_uploaded_file($_FILES['file']['tmp_name'], $dir);
-        $users->updateUser($user[0]['id'], $user);
+        $user->createUser($_POST);
         header('location: /');
     } 
 }
-
-?>

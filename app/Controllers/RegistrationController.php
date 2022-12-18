@@ -6,16 +6,15 @@ use App\Models\User;
 
 class RegistrationController
 {
-    public function index()
+    public function index(): void
     {
         require_once 'resources/views/registration.php';
     }
 
-    public function register()
+    public function register(User $user): void
     {
-        $users = new User;
-        if ($users->validatePassword($_POST)) {
-            $user = $users->createUser($_POST);
+        if ($user->validatePassword($_POST)) {
+            $user = $user->createUser($_POST);
             header('location: /');
         }
     }

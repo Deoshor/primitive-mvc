@@ -7,12 +7,12 @@ use Framework\Src\Auth\Auth;
 
 class AuthorizationController
 {
-    public function index()
+    public function index(): void
     {
         require_once('resources/views/login.php');
     } 
 
-    public function login()
+    public function login(): void
     {
         $email = $_POST['email'];
         $password = $_POST['password'];

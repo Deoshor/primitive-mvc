@@ -12,14 +12,12 @@ use Framework\Src\Auth\Auth;
 
 class ArticleController
 {
-    public function index(): void
+    public function index(Article $article, Comment $comment): void
     {
-        $articles = new Article();
         $article_id = substr($_SERVER['QUERY_STRING'], 3);
-        $article = $articles->where('id', $article_id)->getArticle();
+        $article = $article->where('id', $article_id)->getArticle();
 
-        $comments = new Comment();
-        $comment = $comments->where('comment2article', $article_id)->getComments();
+        $comment = $comment->where('comment2article', $article_id)->getComments();
 
         $article_file = new ArticleFile();
         $article_files = $article_file->where('file2article', $article['id'])->getArticleFilesById();
@@ -42,18 +40,17 @@ class ArticleController
         require_once 'resources/views/article.php';
     }
 
-    public function create(): void
+    public function create(Article $article): void
     {
         $imageService = new ImageService;
-        $articles = new Article();
         $data_article = $_POST;
         $user = Auth::user();
         $data_article['article2user'] = $user['id'];
 
         if (!$_FILES['article_files']['tmp_name'][0] == ""){
             if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
-                if($articles->createArticle($data_article)) {
-                    $article_id = $articles->getLastArticle();
+                if($article->createArticle($data_article)) {
+                    $article_id = $article->getLastArticle();
                     $dir = substr(__DIR__, 0, -15) . 'storage\articles\\';
                     foreach ($imageService->uniqImageName($_FILES['article_files']['name']) as $file) {
                         $data_article['article_files'][] = $file;
@@ -72,21 +69,20 @@ class ArticleController
                 header("Location: " . $_SERVER['HTTP_REFERER']);
             }
         } else {
-            $articles->createArticle($data_article);
+            $article->createArticle($data_article);
             header("Location: " . $_SERVER['HTTP_REFERER']);
         }
     }
     
-    public function update(): void
+    public function update(Article $article): void
     {
         $imageService = new ImageService;
-        $articles = new Article();
         $data_article = $_POST;
         $user = Auth::user();
         $data_article['article2user'] = $user['id'];
         if (!$_FILES['article_files']['tmp_name'][0] == "") {
             if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
-                $articles->updateArticle($data_article['id'], $data_article);
+                $article->updateArticle($data_article['id'], $data_article);
 
                 $article_file = new ArticleFile();
                 $data_article['article_files'] = $imageService->uniqImageName($_FILES['article_files']['name']);
@@ -103,18 +99,16 @@ class ArticleController
                 header("Location: " . $_SERVER['HTTP_REFERER']);
             }
         } else {
-            $articles->updateArticle($data_article['id'], $data_article);
+            $article->updateArticle($data_article['id'], $data_article);
             header("Location: " . $_SERVER['HTTP_REFERER']);
         }
     }
 
-    public function delete(): void
+    public function delete(Article $article, ArticleFile $articleFile): void
     {
-        $article_file = new ArticleFile();
-        $article_file->deleteArticleFiles($_POST['article_id']);
+        $articleFile->deleteArticleFiles($_POST['article_id']);
 
-        $articles = new Article;
-        $article = $articles->deleteArticle($_POST['article_id']);
+        $article = $article->deleteArticle($_POST['article_id']);
 
         header('Location: /topic?id=' . $_POST['topic_id']);
     }

@@ -10,10 +10,9 @@ use Framework\Src\Auth\Auth;
 
 class CommentController
 {
-    public function create(): void
+    public function create(Comment $comment): void
     {
         $imageService = new ImageService;
-        $comments = new Comment();
         $data_comment = $_POST;
         $user = Auth::user();
         $data_comment['comment2user'] = $user['id'];
@@ -21,8 +20,8 @@ class CommentController
 
         if (!$_FILES['comment_files']['tmp_name'][0] == ""){
             if ($imageService->validateSize('comment_files', $_FILES) && $imageService->validateType('comment_files', $_FILES)) {
-                if($comments->createComment($data_comment)) {
-                    $comment_id = $comments->getLastComment();
+                if($comment->createComment($data_comment)) {
+                    $comment_id = $comment->getLastComment();
                     $dir = substr(__DIR__, 0, -15) . 'storage\comments\\';
                     foreach ($imageService->uniqImageName($_FILES['comment_files']['name']) as $file) {
                         $data_comment['comment_files'][] = $file;
@@ -41,22 +40,21 @@ class CommentController
                 header("Location: " . $_SERVER['HTTP_REFERER']);
             }
         } else {
-            $comments->createComment($data_comment);
+            $comment->createComment($data_comment);
             header("Location: " . $_SERVER['HTTP_REFERER']);
         }
     }
 
-    public function update(): void
+    public function update(Comment $comment): void
     {
         $imageService = new ImageService;
-        $comments = new Comment();
         $data_comment = $_POST;
         $user = Auth::user();
         $data_comment['comment2user'] = $user['id'];
 
         if (!$_FILES['comment_files']['tmp_name'][0] == "") {
             if ($imageService->validateSize('comment_files', $_FILES) && $imageService->validateType('comment_files', $_FILES)) {
-                $comments->updateComment($data_comment['id'], $data_comment);
+                $comment->updateComment($data_comment['id'], $data_comment);
 
                 $comment_file = new CommentFile();
                 $data_comment['comment_files'] = $imageService->uniqImageName($_FILES['comment_files']['name']);
@@ -73,18 +71,16 @@ class CommentController
                 header("Location: " . $_SERVER['HTTP_REFERER']);
             }
         } else {
-            $comments->updateComment($data_comment['id'], $data_comment);
+            $comment->updateComment($data_comment['id'], $data_comment);
             header("Location: " . $_SERVER['HTTP_REFERER']);
         }
     }   
 
-    public function delete(): void
+    public function delete(Comment $comment, CommentFile $commentFile): void
     {
-        $comment_file = new CommentFile();
-        $comment_file->deleteCommentFiles($_POST['comment_id']);
+        $commentFile->deleteCommentFiles($_POST['comment_id']);
 
-        $comments = new Comment();
-        $comments->deleteComment($_POST['comment_id']);
+        $comment->deleteComment($_POST['comment_id']);
         header('Location: /article?id=' . $_POST['article_id']);
     }
 }

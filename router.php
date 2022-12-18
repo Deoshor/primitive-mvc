@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Topic;
+
 $route =  $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 $id = $_SERVER['QUERY_STRING'];
@@ -7,7 +9,7 @@ $id = $_SERVER['QUERY_STRING'];
 switch ($route) {
     case '/':
         $controller = new \App\Controllers\MainController();
-        echo $controller->index();
+        $controller->index(new Topic());
         break;
     case '/users/store':
         if($method == 'POST') {

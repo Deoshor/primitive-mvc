@@ -8,40 +8,49 @@ use Framework\Src\Auth\Auth;
 
 class TopicController
 {
-    public function index(Topic $topic, Article $article): void
+    public $topic;
+    public $article;
+
+    public function __construct(Topic $topic, Article $article)
+    {
+        $this->topic = $topic;
+        $this->article = $article;
+    }
+
+    public function index(): void
     {
         $topic_id = substr($_SERVER['QUERY_STRING'], 3);
-        $topic = $topic->where('id', $topic_id)->getTopic();
-        $article = $article->where('article2topic', $topic_id)->getArticles();
+        $topic = $this->topic->where('id', $topic_id)->getTopic();
+        $article = $this->article->where('article2topic', $topic_id)->getArticles();
         require_once 'resources/views/topic.php';
     }
 
-    public function create(Topic $topic): void
+    public function create(): void
     {
         $user = Auth::user();
         $data['topic_name'] = $_POST['topic_name'];
         $data['topic2user'] = $user['id'];
-        $topic = $topic->createTopic($data);
+        $topic = $this->topic->createTopic($data);
         header('Location: /');
     }
 
-    public function edit(Topic $topic)
+    public function edit()
     {
-        $topic = $topic->getTopicById($_REQUEST['id']);
+        $topic = $this->topic->getTopicById($_REQUEST['id']);
         require_once 'resources/views/editTopic.php';
     }
 
-    public function update(Topic $topic)
+    public function update()
     {
         $id = $_POST['topic_id'];
         unset($_POST['topic_id']);
-        $topic = $topic->updateTopic($id, $_POST);
+        $topic = $this->topic->updateTopic($id, $_POST);
         header('Location: /');
     }
 
-    public function delete(Topic $topic)
+    public function delete()
     {
-        $topic = $topic->deleteTopic($_POST['topic_id']);
+        $topic = $this->topic->deleteTopic($_POST['topic_id']);
         header('Location: /');
     }
 }

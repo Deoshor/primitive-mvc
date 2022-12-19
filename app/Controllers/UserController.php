@@ -6,15 +6,22 @@ use App\Models\User;
 
 class UserController
 {
-    public function index(User $user): void
+    public $user;
+
+    public function __construct(User $user)
     {
-        $users = $user->getAllDataFromTable();
+        $this->user = $user;
+    }
+
+    public function index(): void
+    {
+        $users = $this->user->getAllDataFromTable();
         require_once 'resources/views/index.html';
     }
 
-    public function store(User $user): void
+    public function store(): void
     {
-        $user->createUser($_POST);
+        $this->user->createUser($_POST);
         header('location: /');
     } 
 }

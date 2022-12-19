@@ -12,12 +12,23 @@ use Framework\Src\Auth\Auth;
 
 class ArticleController
 {
-    public function index(Article $article, Comment $comment): void
+    public $article;
+    public $comment;
+    public $articleFile;
+
+    public function __construct(Article $article, Comment $comment, ArticleFile $articleFile)
+    {
+        $this->article = $article;
+        $this->comment = $comment;
+        $this->articleFile = $articleFile;
+    }
+
+    public function index(): void
     {
         $article_id = substr($_SERVER['QUERY_STRING'], 3);
-        $article = $article->where('id', $article_id)->getArticle();
+        $article = $this->article->where('id', $article_id)->getArticle();
 
-        $comment = $comment->where('comment2article', $article_id)->getComments();
+        $comment = $this->comment->where('comment2article', $article_id)->getComments();
 
         $article_file = new ArticleFile();
         $article_files = $article_file->where('file2article', $article['id'])->getArticleFilesById();
@@ -40,7 +51,7 @@ class ArticleController
         require_once 'resources/views/article.php';
     }
 
-    public function create(Article $article): void
+    public function create(): void
     {
         $imageService = new ImageService;
         $data_article = $_POST;
@@ -49,8 +60,8 @@ class ArticleController
 
         if (!$_FILES['article_files']['tmp_name'][0] == ""){
             if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
-                if($article->createArticle($data_article)) {
-                    $article_id = $article->getLastArticle();
+                if($this->article->createArticle($data_article)) {
+                    $article_id = $this->article->getLastArticle();
                     $dir = substr(__DIR__, 0, -15) . 'storage\articles\\';
                     foreach ($imageService->uniqImageName($_FILES['article_files']['name']) as $file) {
                         $data_article['article_files'][] = $file;
@@ -69,12 +80,12 @@ class ArticleController
                 header("Location: " . $_SERVER['HTTP_REFERER']);
             }
         } else {
-            $article->createArticle($data_article);
+            $this->article->createArticle($data_article);
             header("Location: " . $_SERVER['HTTP_REFERER']);
         }
     }
     
-    public function update(Article $article): void
+    public function update(): void
     {
         $imageService = new ImageService;
         $data_article = $_POST;
@@ -82,7 +93,7 @@ class ArticleController
         $data_article['article2user'] = $user['id'];
         if (!$_FILES['article_files']['tmp_name'][0] == "") {
             if ($imageService->validateSize('article_files', $_FILES) && $imageService->validateType('article_files', $_FILES)) {
-                $article->updateArticle($data_article['id'], $data_article);
+                $this->article->updateArticle($data_article['id'], $data_article);
 
                 $article_file = new ArticleFile();
                 $data_article['article_files'] = $imageService->uniqImageName($_FILES['article_files']['name']);
@@ -99,16 +110,16 @@ class ArticleController
                 header("Location: " . $_SERVER['HTTP_REFERER']);
             }
         } else {
-            $article->updateArticle($data_article['id'], $data_article);
+            $this->article->updateArticle($data_article['id'], $data_article);
             header("Location: " . $_SERVER['HTTP_REFERER']);
         }
     }
 
-    public function delete(Article $article, ArticleFile $articleFile): void
+    public function delete(): void
     {
-        $articleFile->deleteArticleFiles($_POST['article_id']);
+        $this->articleFile->deleteArticleFiles($_POST['article_id']);
 
-        $article = $article->deleteArticle($_POST['article_id']);
+        $article = $this->article->deleteArticle($_POST['article_id']);
 
         header('Location: /topic?id=' . $_POST['topic_id']);
     }

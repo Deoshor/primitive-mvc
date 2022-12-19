@@ -6,9 +6,15 @@ use App\Models\Topic;
 
 class MainController
 {
-    public function index(Topic $topic): void
+    public $topic;
+    public function __construct(Topic $topic)
     {
-        $topic = $topic->getTopics();
+        $this->topic = $topic;
+    }
+
+    public function index(): void
+    {
+        $topic = $this->topic->getTopics();
         require_once 'resources/views/index.php';
     }
 }

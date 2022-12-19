@@ -5,88 +5,72 @@ use App\Models\ArticleFile;
 use App\Models\Comment;
 use App\Models\CommentFile;
 use App\Models\Topic;
-use App\Models\User;
+use \Framework\Src\Container;
 
 $route =  $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 $id = $_SERVER['QUERY_STRING'];
 
+$controller = new Container();
+
 switch ($route) {
     case '/':
-        $controller = new \App\Controllers\MainController();
-        $controller->index(new Topic());
+        $controller->controllers['MainController']->index();
         break;
     case '/users/store':
         if($method == 'POST') {
-            $controller = new \App\Controllers\UserController();
-            $controller->store(new User());
+            $controller->controllers['UserController']->store();
         }
         break;
     case '/registration':
-        $controller = new \App\Controllers\RegistrationController();
-        $controller->index();
+        $controller->controllers['RegistrationController']->index();
         break;
     case '/registration/create':
         if($method == 'POST') {
-            $controller = new \App\Controllers\RegistrationController();
-            $controller->register(new User());
+            $controller->controllers['RegistrationController']->register();
         }
         break;
     case '/login':
-        $controller = new \App\Controllers\AuthorizationController();
-        $controller->index();
+        $controller->controllers['AuthorizationController']->index();
         break;
     case '/login/authorize':
-        $controller = new \App\Controllers\AuthorizationController();
-        $controller->login();
+        $controller->controllers['AuthorizationController']->login();
         break;
     case "/topic?$id":
-        $controller = new \App\Controllers\TopicController();
-        $controller->index(new Topic(), new Article());
+        $controller->controllers['TopicController']->index();
         break;
     case "/topic/create":
-        $controller = new \App\Controllers\TopicController();
-        $controller->create(new Topic());
+        $controller->controllers['TopicController']->create();
         break;
     case "/topic/edit?$id":
-        $controller = new \App\Controllers\TopicController();
-        $controller->edit(new Topic());
+        $controller->controllers['TopicController']->edit();
         break; 
     case "/topic/update":
-        $controller = new \App\Controllers\TopicController();
-        $controller->update(new Topic);
+        $controller->controllers['TopicController']->update();
         break;
     case "/topic/delete":
-        $controller = new \App\Controllers\TopicController();
-        $controller->delete(new Topic);
+        $controller->controllers['TopicController']->delete();
         break;            
     case "/article?$id":
-        $controller = new \App\Controllers\ArticleController();
-        $controller->index(new Article(), new Comment());
+        $controller->controllers['ArticleController']->index();
         break;
     case '/article/create':
-        $controller = new \App\Controllers\ArticleController();
-        $controller->create(new Article());
+        $controller->controllers['ArticleController']->create();
         break;
     case "/article/update":
-        $controller = new \App\Controllers\ArticleController();
-        $controller->update(new Article());
+        $controller->controllers['ArticleController']->update();
         break;
     case "/article/delete":
-        $controller = new \App\Controllers\ArticleController();
-        $controller->delete(new Article(), new ArticleFile());
+        $controller->controllers['ArticleController']->delete();
         break;    
     case '/comment/create':
-        $controller = new \App\Controllers\CommentController();
-        $controller->create(new Comment());
+        $controller->controllers['CommentController']->create();
         break;
     case '/comment/update':
-        $controller = new \App\Controllers\CommentController();
-        $controller->update(new Comment());
+        $controller->controllers['CommentController']->update();
         break;
     case '/comment/delete':
-        $controller = new \App\Controllers\CommentController();
-        $controller->delete(new Comment(), new CommentFile());
+        $controller->controllers['CommentController']->delete();
         break;
     default:
         echo ("404 Not Found");

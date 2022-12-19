@@ -16,10 +16,8 @@ class Authenticate
     public function auth($email, $password): bool|array
     {
         $user = $this->ident($email);
-        if (!$user){
-            return false;
-        }
-        if(password_verify($password, $user['password'])) {
+
+        if($user && password_verify($password, $user['password'])) {
             session_start();
             $_SESSION['user'] = $user;
             return true;

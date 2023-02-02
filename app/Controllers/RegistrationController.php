@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\User;
+use Framework\Src\Validation\ValidationPassword;
 
 class RegistrationController
 {
@@ -20,9 +21,10 @@ class RegistrationController
 
     public function register(): void
     {
-        if ($this->user->validatePassword($_POST)) {
+        if (ValidationPassword::validatePassword($_POST)) {
             $user = $this->user->createUser($_POST);
             header('location: /');
+
         }
     }
 }

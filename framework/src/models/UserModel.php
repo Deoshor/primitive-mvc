@@ -33,18 +33,6 @@ class UserModel
         return $this->database->updateObject($this->table, $id, $data);
     }
 
-    public function validatePassword($data)
-    {
-        $currentPassword = $data['password'];
-        
-        if (preg_match_all("\^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,100}$", $currentPassword)) {
-            $alert = 'Пароль должен состоять из минимум из 6 символов: только латинские буквы и цифры';
-            require_once 'resources/views/alert.php';
-        } else {
-            return true;
-        }
-    }
-
     public function get()
     {
         return $this->database->get($this->table);
